@@ -145,26 +145,53 @@ function App() {
                 className="frontal-real-image"
               />
               
-              {/* Strass superposés sur la gouttière */}
+              {/* Strass superposés DANS la gouttière blanche */}
               {selectedStones.length > 0 && (
                 <div className="stones-overlay">
                   {Array.from({ length: selectedSize.stones }, (_, index) => {
                     const stone = selectedStones[index % selectedStones.length];
                     const progress = index / (selectedSize.stones - 1);
                     
-                    // Trajectoire de la gouttière du frontal vide - ajustée
-                    // La gouttière est légèrement à gauche du centre et fait un arc
-                    const xStart = 32;
-                    const xControl = 16;
-                    const xEnd = 36;
-                    const x = (1-progress)*(1-progress)*xStart + 2*(1-progress)*progress*xControl + progress*progress*xEnd;
+                    // Trajectoire EXACTE de la gouttière blanche
+                    // Points identifiés: (23,19) -> (28,30) -> (35,45) -> (45,60) -> (56,74)
+                    // Utilisation d'une courbe de Bézier cubique pour suivre ces points
                     
-                    const yStart = 2;
-                    const yEnd = 97;
-                    const y = yStart + progress * (yEnd - yStart);
+                    // Interpolation entre les 5 points de contrôle
+                    const points = [
+                      { x: 23, y: 19 },
+                      { x: 28, y: 30 },
+                      { x: 35, y: 45 },
+                      { x: 45, y: 60 },
+                      { x: 56, y: 74 }
+                    ];
+                    
+                    // Catmull-Rom spline interpolation pour une courbe lisse
+                    const t = progress * (points.length - 1);
+                    const i = Math.min(Math.floor(t), points.length - 2);
+                    const f = t - i;
+                    
+                    // Points pour l'interpolation
+                    const p0 = points[Math.max(0, i - 1)];
+                    const p1 = points[i];
+                    const p2 = points[Math.min(points.length - 1, i + 1)];
+                    const p3 = points[Math.min(points.length - 1, i + 2)];
+                    
+                    // Catmull-Rom spline formula
+                    const x = 0.5 * (
+                      2 * p1.x +
+                      (-p0.x + p2.x) * f +
+                      (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * f * f +
+                      (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * f * f * f
+                    );
+                    const y = 0.5 * (
+                      2 * p1.y +
+                      (-p0.y + p2.y) * f +
+                      (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * f * f +
+                      (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * f * f * f
+                    );
                     
                     // Calcul pour l'overlay
-                    const overlaySize = 18;
+                    const overlaySize = 16;
                     const scale = overlaySize / 140;
                     const offsetX = stone.centerX * scale - overlaySize/2;
                     const offsetY = stone.centerY * scale - overlaySize/2;
