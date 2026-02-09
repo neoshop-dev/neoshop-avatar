@@ -127,108 +127,101 @@ function App() {
           
           {/* Frontal visuel courbé */}
           <div className="frontal-preview" data-testid="frontal-preview">
-            <svg viewBox="0 0 500 120" className="frontal-svg">
-              {/* Fond fourrure */}
+            <svg viewBox="0 0 600 140" className="frontal-svg" preserveAspectRatio="xMidYMid meet">
               <defs>
-                <linearGradient id="furGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#e8dcc8"/>
-                  <stop offset="50%" stopColor="#d4c4a8"/>
-                  <stop offset="100%" stopColor="#c9b898"/>
+                <linearGradient id="leatherGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#5a4a3a"/>
+                  <stop offset="40%" stopColor="#3a2a1a"/>
+                  <stop offset="60%" stopColor="#2a1a0a"/>
+                  <stop offset="100%" stopColor="#4a3a2a"/>
                 </linearGradient>
-                <filter id="leather-texture">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
-                  <feDiffuseLighting in="noise" lightingColor="#3a2a1a" surfaceScale="1">
-                    <feDistantLight azimuth="45" elevation="60"/>
-                  </feDiffuseLighting>
-                </filter>
-                <linearGradient id="leatherGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#4a3a2a"/>
-                  <stop offset="30%" stopColor="#3a2a1a"/>
-                  <stop offset="70%" stopColor="#2a1a0a"/>
-                  <stop offset="100%" stopColor="#3a2a1a"/>
-                </linearGradient>
+                <radialGradient id="goldGrad">
+                  <stop offset="0%" stopColor="#ffd700"/>
+                  <stop offset="50%" stopColor="#daa520"/>
+                  <stop offset="100%" stopColor="#b8860b"/>
+                </radialGradient>
               </defs>
               
-              {/* Fond */}
-              <rect x="0" y="0" width="500" height="120" fill="url(#furGradient)"/>
+              {/* Fond beige/fourrure */}
+              <rect x="0" y="0" width="600" height="140" fill="#e8dcc8"/>
               
-              {/* Bande de cuir courbée */}
+              {/* Ombre du cuir */}
               <path 
-                d="M 30 90 Q 250 20 470 90" 
+                d="M 50 100 Q 300 25 550 100" 
                 fill="none" 
-                stroke="url(#leatherGradient)" 
-                strokeWidth="28"
+                stroke="rgba(0,0,0,0.3)" 
+                strokeWidth="34"
                 strokeLinecap="round"
               />
               
-              {/* Coutures */}
+              {/* Bande de cuir principale */}
               <path 
-                d="M 30 90 Q 250 20 470 90" 
+                d="M 50 100 Q 300 25 550 100" 
                 fill="none" 
-                stroke="#1a0a00" 
+                stroke="url(#leatherGrad)" 
                 strokeWidth="30"
                 strokeLinecap="round"
-                opacity="0.3"
               />
+              
+              {/* Ligne de couture haute */}
               <path 
-                d="M 30 90 Q 250 20 470 90" 
+                d="M 55 98 Q 300 28 545 98" 
                 fill="none" 
-                stroke="url(#leatherGradient)" 
-                strokeWidth="26"
-                strokeLinecap="round"
+                stroke="rgba(139,69,19,0.4)" 
+                strokeWidth="1"
+                strokeDasharray="4,3"
+              />
+              
+              {/* Ligne de couture basse */}
+              <path 
+                d="M 55 102 Q 300 22 545 102" 
+                fill="none" 
+                stroke="rgba(139,69,19,0.4)" 
+                strokeWidth="1"
+                strokeDasharray="4,3"
               />
               
               {/* Pierres sur la courbe */}
               {pattern.length > 0 ? (
                 pattern.map((stone, index) => {
-                  const t = (index + 0.5) / pattern.length;
-                  // Courbe de Bézier quadratique: Q(t) = (1-t)²P0 + 2(1-t)tP1 + t²P2
-                  const x = Math.pow(1-t, 2) * 30 + 2 * (1-t) * t * 250 + Math.pow(t, 2) * 470;
-                  const y = Math.pow(1-t, 2) * 90 + 2 * (1-t) * t * 20 + Math.pow(t, 2) * 90;
+                  // Position sur la courbe avec marges
+                  const margin = 0.08;
+                  const t = margin + (index / (pattern.length - 1 || 1)) * (1 - 2 * margin);
+                  
+                  // Courbe de Bézier quadratique P0(50,100) Q(300,25) P2(550,100)
+                  const x = (1-t)*(1-t)*50 + 2*(1-t)*t*300 + t*t*550;
+                  const y = (1-t)*(1-t)*100 + 2*(1-t)*t*25 + t*t*100;
                   
                   return (
                     <g key={index} data-testid={`preview-stone-${index}`}>
-                      {/* Griffe dorée */}
-                      <circle cx={x} cy={y} r="11" fill="#8b7533" opacity="0.9"/>
-                      <circle cx={x} cy={y} r="10" fill="#c9a227"/>
-                      {/* Pierre */}
-                      <circle 
-                        cx={x} 
-                        cy={y} 
-                        r="8" 
-                        fill={stone.color}
-                        style={{
-                          filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.4))'
-                        }}
-                      />
-                      {/* Reflet brillant */}
-                      <ellipse 
-                        cx={x - 2} 
-                        cy={y - 2} 
-                        rx="3" 
-                        ry="2" 
-                        fill="rgba(255,255,255,0.6)"
-                      />
-                      <circle 
-                        cx={x - 3} 
-                        cy={y - 3} 
-                        r="1.5" 
-                        fill="rgba(255,255,255,0.8)"
-                      />
+                      {/* Base griffe dorée */}
+                      <circle cx={x} cy={y} r="9" fill="#8b7533"/>
+                      {/* Griffe dorée brillante */}
+                      <circle cx={x} cy={y} r="8" fill="url(#goldGrad)"/>
+                      {/* Pierre cristal */}
+                      <circle cx={x} cy={y} r="6.5" fill={stone.color}/>
+                      {/* Reflet principal */}
+                      <ellipse cx={x-1.5} cy={y-1.5} rx="2.5" ry="1.5" fill="rgba(255,255,255,0.7)"/>
+                      {/* Point brillant */}
+                      <circle cx={x-2} cy={y-2} r="1" fill="white"/>
                     </g>
                   );
                 })
               ) : (
-                <text x="250" y="60" textAnchor="middle" fill="#8b8b8b" fontSize="14" fontStyle="italic">
+                <text x="300" y="70" textAnchor="middle" fill="#8b8b8b" fontSize="14" fontStyle="italic">
                   Sélectionnez des pierres ci-dessous
                 </text>
               )}
               
-              {/* Attaches aux extrémités */}
-              <circle cx="25" cy="92" r="8" fill="#c9a227"/>
-              <circle cx="25" cy="92" r="5" fill="#8b7533"/>
-              <circle cx="475" cy="92" r="8" fill="#c9a227"/>
-              <circle cx="475" cy="92" r="5" fill="#8b7533"/>
+              {/* Attache gauche */}
+              <ellipse cx="45" cy="102" rx="12" ry="10" fill="#3a2a1a"/>
+              <circle cx="45" cy="102" r="7" fill="url(#goldGrad)"/>
+              <circle cx="45" cy="102" r="4" fill="#8b7533"/>
+              
+              {/* Attache droite */}
+              <ellipse cx="555" cy="102" rx="12" ry="10" fill="#3a2a1a"/>
+              <circle cx="555" cy="102" r="7" fill="url(#goldGrad)"/>
+              <circle cx="555" cy="102" r="4" fill="#8b7533"/>
             </svg>
           </div>
 
