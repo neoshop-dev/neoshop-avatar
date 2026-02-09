@@ -152,31 +152,26 @@ function App() {
                     const stone = selectedStones[index % selectedStones.length];
                     const progress = index / (selectedSize.stones - 1);
                     
-                    // Trajectoire EXACTE de la gouttière blanche
-                    // Points identifiés: (23,19) -> (28,30) -> (35,45) -> (45,60) -> (56,74)
-                    // Utilisation d'une courbe de Bézier cubique pour suivre ces points
-                    
-                    // Interpolation entre les 5 points de contrôle
+                    // Trajectoire EXACTE de la gouttière blanche (ajustée)
+                    // La gouttière va du haut-gauche vers le bas-droite
                     const points = [
-                      { x: 23, y: 19 },
-                      { x: 28, y: 30 },
-                      { x: 35, y: 45 },
-                      { x: 45, y: 60 },
-                      { x: 56, y: 74 }
+                      { x: 20, y: 18 },
+                      { x: 24, y: 28 },
+                      { x: 30, y: 42 },
+                      { x: 38, y: 56 },
+                      { x: 48, y: 72 }
                     ];
                     
-                    // Catmull-Rom spline interpolation pour une courbe lisse
+                    // Catmull-Rom spline interpolation
                     const t = progress * (points.length - 1);
                     const i = Math.min(Math.floor(t), points.length - 2);
                     const f = t - i;
                     
-                    // Points pour l'interpolation
                     const p0 = points[Math.max(0, i - 1)];
                     const p1 = points[i];
                     const p2 = points[Math.min(points.length - 1, i + 1)];
                     const p3 = points[Math.min(points.length - 1, i + 2)];
                     
-                    // Catmull-Rom spline formula
                     const x = 0.5 * (
                       2 * p1.x +
                       (-p0.x + p2.x) * f +
@@ -190,8 +185,7 @@ function App() {
                       (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * f * f * f
                     );
                     
-                    // Calcul pour l'overlay
-                    const overlaySize = 16;
+                    const overlaySize = 14;
                     const scale = overlaySize / 140;
                     const offsetX = stone.centerX * scale - overlaySize/2;
                     const offsetY = stone.centerY * scale - overlaySize/2;
