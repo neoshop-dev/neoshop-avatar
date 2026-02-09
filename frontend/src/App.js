@@ -224,8 +224,12 @@ function App() {
                   >
                     <span className="order-number">{index + 1}</span>
                     <div 
-                      className="stone-preview" 
-                      style={{ background: stone.color }}
+                      className="stone-preview-image" 
+                      style={{ 
+                        backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                        backgroundPosition: `-${stone.position.col * 52}px -${stone.position.row * 64}px`,
+                        backgroundSize: '262px 256px',
+                      }}
                     />
                     <span className="stone-name">{stone.name}</span>
                     <button 
