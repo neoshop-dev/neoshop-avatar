@@ -249,7 +249,7 @@ function App() {
             </div>
           )}
 
-          {/* Grille des pierres */}
+          {/* Grille des pierres avec vraies images */}
           <div className="stones-grid" data-testid="stones-grid">
             {STONES.map((stone) => (
               <button
@@ -260,10 +260,11 @@ function App() {
                 data-testid={`stone-option-${stone.id}`}
               >
                 <div 
-                  className="stone-circle"
+                  className="stone-circle-image"
                   style={{ 
-                    background: `radial-gradient(circle at 30% 30%, ${stone.color}ee, ${stone.color})`,
-                    boxShadow: `0 4px 12px ${stone.color}44`
+                    backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                    backgroundPosition: `-${stone.position.col * 105}px -${stone.position.row * 128}px`,
+                    backgroundSize: '525px 512px',
                   }}
                 />
                 <span className="stone-label">{stone.name}</span>
