@@ -197,13 +197,12 @@ function App() {
                     {/* Base griffe dorée */}
                     <circle cx={x} cy={y} r="9" fill="#8b7533"/>
                     {/* Griffe dorée brillante */}
-                    <circle cx={x} cy={y} r="8" fill="url(#goldGrad)"/>
+                    <circle cx={x} cy={y} r="8" fill="#daa520"/>
                     {/* Pierre cristal */}
-                    <circle cx={x} cy={y} r="6.5" fill={stone.color}/>
-                    {/* Reflet principal */}
-                    <ellipse cx={x-1.5} cy={y-1.5} rx="2.5" ry="1.5" fill="rgba(255,255,255,0.7)"/>
-                    {/* Point brillant */}
-                    <circle cx={x-2} cy={y-2} r="1" fill="white"/>
+                    <circle cx={x} cy={y} r="6" fill={stone.color}/>
+                    {/* Reflet */}
+                    <ellipse cx={x-1.5} cy={y-1.5} rx="2" ry="1.2" fill="rgba(255,255,255,0.6)"/>
+                    <circle cx={x-2} cy={y-2} r="0.8" fill="white"/>
                   </g>
                 );
               })}
