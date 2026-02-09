@@ -256,25 +256,31 @@ function App() {
 
           {/* Grille des pierres avec vraies images */}
           <div className="stones-grid" data-testid="stones-grid">
-            {STONES.map((stone) => (
-              <button
-                key={stone.id}
-                className={`stone-option ${selectedStones.some(s => s.id === stone.id) ? 'selected' : ''}`}
-                onClick={() => addStone(stone)}
-                disabled={selectedStones.length >= 5}
-                data-testid={`stone-option-${stone.id}`}
-              >
-                <div 
-                  className="stone-circle-image"
-                  style={{ 
-                    backgroundImage: `url(${STRASS_IMAGE_URL})`,
-                    backgroundPosition: `-${stone.position.col * 105}px -${stone.position.row * 128}px`,
-                    backgroundSize: '525px 512px',
-                  }}
-                />
-                <span className="stone-label">{stone.name}</span>
-              </button>
-            ))}
+            {STONES.map((stone) => {
+              // Scale pour afficher la gemme à 70px (taille d'affichage)
+              const displaySize = 70;
+              const scale = displaySize / STONE_SIZE;
+              
+              return (
+                <button
+                  key={stone.id}
+                  className={`stone-option ${selectedStones.some(s => s.id === stone.id) ? 'selected' : ''}`}
+                  onClick={() => addStone(stone)}
+                  disabled={selectedStones.length >= 5}
+                  data-testid={`stone-option-${stone.id}`}
+                >
+                  <div 
+                    className="stone-circle-image"
+                    style={{ 
+                      backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                      backgroundPosition: `-${stone.spriteX * scale}px -${stone.spriteY * scale}px`,
+                      backgroundSize: `${816 * scale}px ${1028 * scale}px`,
+                    }}
+                  />
+                  <span className="stone-label">{stone.name}</span>
+                </button>
+              );
+            })}
           </div>
         </section>
 
