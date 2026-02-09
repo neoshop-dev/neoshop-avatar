@@ -162,11 +162,11 @@ function App() {
                     const yEnd = 97;
                     const y = yStart + progress * (yEnd - yStart);
                     
-                    // Calcul du scale et centrage
+                    // Calcul pour l'overlay
                     const overlaySize = 18;
-                    const scale = overlaySize / STONE_SIZE;
-                    const offsetX = (stone.spriteX + STONE_SIZE/2) * scale - overlaySize/2;
-                    const offsetY = (stone.spriteY + STONE_SIZE/2) * scale - overlaySize/2;
+                    const scale = overlaySize / 140;
+                    const offsetX = stone.centerX * scale - overlaySize/2;
+                    const offsetY = stone.centerY * scale - overlaySize/2;
                     
                     return (
                       <div 
@@ -178,7 +178,7 @@ function App() {
                           top: `${y}%`,
                           backgroundImage: `url(${STRASS_IMAGE_URL})`,
                           backgroundPosition: `-${offsetX}px -${offsetY}px`,
-                          backgroundSize: `${816 * scale}px ${1028 * scale}px`,
+                          backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
                         }}
                       />
                     );
