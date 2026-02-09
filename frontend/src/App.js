@@ -125,39 +125,60 @@ function App() {
         <section className="preview-section" data-testid="preview-section">
           <h2>Prévisualisation</h2>
           
-          {/* Frontal visuel avec HTML/CSS */}
+          {/* Frontal avec image réelle et pierres superposées */}
           <div className="frontal-preview" data-testid="frontal-preview">
-            <div className="frontal-container">
-              {/* Attache gauche */}
-              <div className="frontal-clip left"></div>
+            <div className="frontal-image-container">
+              {/* Image réelle du frontal */}
+              <img 
+                src="https://customer-assets.emergentagent.com/job_frontal-custom/artifacts/wsm6tdca_frontal-clips-incurve-en-cristal-personnalisable-plusieurs-couleurs-2419551.jpg"
+                alt="Frontal personnalisable"
+                className="frontal-real-image"
+              />
               
-              {/* Bande de cuir avec pierres */}
-              <div className="frontal-band">
-                {selectedStones.length > 0 ? (
-                  Array.from({ length: selectedSize.stones }, (_, index) => {
+              {/* Pierres superposées sur la courbe */}
+              {selectedStones.length > 0 && (
+                <div className="stones-overlay">
+                  {Array.from({ length: selectedSize.stones }, (_, index) => {
                     const stone = selectedStones[index % selectedStones.length];
+                    // Calcul de la position le long de la courbe du frontal
+                    const progress = index / (selectedSize.stones - 1);
+                    
+                    // La courbe va de haut-gauche vers bas-droite dans l'image
+                    // Approximation de la trajectoire courbée
+                    const startX = 8;
+                    const endX = 92;
+                    const x = startX + progress * (endX - startX);
+                    
+                    // Courbe parabolique pour suivre l'arc du frontal
+                    const midY = 15;
+                    const endY = 88;
+                    const curveHeight = 73;
+                    const y = midY + 4 * curveHeight * progress * (1 - progress) + progress * (endY - midY - curveHeight * 0.25);
+                    
                     return (
                       <div 
-                        key={index} 
-                        className="stone-wrapper"
+                        key={index}
+                        className="overlay-stone"
                         data-testid={`preview-stone-${index}`}
+                        style={{
+                          left: `${x}%`,
+                          top: `${y}%`,
+                          backgroundColor: stone.color,
+                        }}
                       >
-                        <div 
-                          className="stone-crystal"
-                          style={{ backgroundColor: stone.color }}
-                        >
-                          <div className="stone-shine"></div>
-                        </div>
+                        <div className="stone-shine-overlay"></div>
                       </div>
                     );
-                  })
-                ) : (
-                  <span className="empty-text">Sélectionnez des pierres ci-dessous</span>
-                )}
-              </div>
+                  })}
+                </div>
+              )}
               
-              {/* Attache droite */}
-              <div className="frontal-clip right"></div>
+              {/* Message si pas de pierres */}
+              {selectedStones.length === 0 && (
+                <div className="overlay-message">
+                  Sélectionnez des pierres ci-dessous
+                </div>
+              )}
             </div>
           </div>
 
