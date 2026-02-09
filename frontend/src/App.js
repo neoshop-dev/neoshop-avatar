@@ -262,9 +262,13 @@ function App() {
           {/* Grille des pierres avec vraies images */}
           <div className="stones-grid" data-testid="stones-grid">
             {STONES.map((stone) => {
-              // Scale pour afficher la gemme à 70px (taille d'affichage)
-              const displaySize = 70;
+              // Scale pour afficher la gemme à 60px (taille d'affichage)
+              const displaySize = 60;
               const scale = displaySize / STONE_SIZE;
+              // Centrer sur la gemme (spriteX et spriteY pointent vers le coin supérieur gauche)
+              // On veut centrer le cercle de 60px sur le centre de la gemme
+              const offsetX = (stone.spriteX + STONE_SIZE/2) * scale - displaySize/2;
+              const offsetY = (stone.spriteY + STONE_SIZE/2) * scale - displaySize/2;
               
               return (
                 <button
@@ -278,7 +282,7 @@ function App() {
                     className="stone-circle-image"
                     style={{ 
                       backgroundImage: `url(${STRASS_IMAGE_URL})`,
-                      backgroundPosition: `-${stone.spriteX * scale}px -${stone.spriteY * scale}px`,
+                      backgroundPosition: `-${offsetX}px -${offsetY}px`,
                       backgroundSize: `${816 * scale}px ${1028 * scale}px`,
                     }}
                   />
