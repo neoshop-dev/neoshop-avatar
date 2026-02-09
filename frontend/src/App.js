@@ -140,22 +140,21 @@ function App() {
                 <div className="stones-overlay">
                   {Array.from({ length: selectedSize.stones }, (_, index) => {
                     const stone = selectedStones[index % selectedStones.length];
-                    // Calcul de la position le long de la courbe du frontal
                     const progress = index / (selectedSize.stones - 1);
                     
-                    // La courbe du frontal dans l'image: 
-                    // Part du haut-gauche vers le bas-droite en arc
-                    // Points approximatifs: (55%, 2%) -> (48%, 50%) -> (55%, 98%)
+                    // La courbe du frontal dans l'image suit un arc:
+                    // Du haut-gauche (environ 35%, 3%) vers le milieu-gauche (25%, 50%) 
+                    // puis vers le bas-gauche (35%, 97%)
                     
-                    // X: légèrement vers la gauche au milieu
-                    const xStart = 55;
-                    const xMid = 46;
-                    const xEnd = 56;
-                    const x = xStart + 2 * progress * (1 - progress) * (xMid - xStart) + progress * progress * (xEnd - xStart);
+                    // Courbe quadratique de Bézier pour X
+                    const xStart = 35;
+                    const xControl = 22; // point de contrôle plus à gauche
+                    const xEnd = 38;
+                    const x = (1-progress)*(1-progress)*xStart + 2*(1-progress)*progress*xControl + progress*progress*xEnd;
                     
                     // Y: distribution linéaire du haut vers le bas
-                    const yStart = 3;
-                    const yEnd = 96;
+                    const yStart = 4;
+                    const yEnd = 95;
                     const y = yStart + progress * (yEnd - yStart);
                     
                     return (
