@@ -150,8 +150,7 @@ function App() {
                     const stone = selectedStones[index % selectedStones.length];
                     const progress = index / (selectedSize.stones - 1);
                     
-                    // Trajectoire précise de la gouttière du frontal vide
-                    // La gouttière va du haut-gauche vers le bas en arc
+                    // Trajectoire de la gouttière du frontal vide
                     const xStart = 36;
                     const xControl = 20;
                     const xEnd = 40;
@@ -161,9 +160,9 @@ function App() {
                     const yEnd = 97;
                     const y = yStart + progress * (yEnd - yStart);
                     
-                    // Position dans l'image des strass (grille 5 colonnes, 4 lignes)
-                    const stoneX = stone.position.col * 20;
-                    const stoneY = stone.position.row * 24.5;
+                    // Calcul du scale pour l'overlay (18px sur écran = STONE_SIZE dans sprite)
+                    const overlaySize = 18;
+                    const scale = overlaySize / STONE_SIZE;
                     
                     return (
                       <div 
@@ -174,8 +173,8 @@ function App() {
                           left: `${x}%`,
                           top: `${y}%`,
                           backgroundImage: `url(${STRASS_IMAGE_URL})`,
-                          backgroundPosition: `-${stoneX * 2.1}px -${stoneY * 2.1}px`,
-                          backgroundSize: '1050%',
+                          backgroundPosition: `-${stone.spriteX * scale}px -${stone.spriteY * scale}px`,
+                          backgroundSize: `${816 * scale}px ${1028 * scale}px`,
                         }}
                       />
                     );
