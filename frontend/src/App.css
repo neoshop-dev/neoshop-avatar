@@ -365,8 +365,8 @@ section h2 .hint {
 }
 
 .stone-circle-image {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background-repeat: no-repeat;
   transition: transform 0.2s ease;
