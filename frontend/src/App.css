@@ -134,12 +134,11 @@ section h2 .hint {
 
 .overlay-strass {
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   background-repeat: no-repeat;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .overlay-message {
