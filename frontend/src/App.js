@@ -125,99 +125,40 @@ function App() {
         <section className="preview-section" data-testid="preview-section">
           <h2>Prévisualisation</h2>
           
-          {/* Frontal visuel courbé */}
+          {/* Frontal visuel avec HTML/CSS */}
           <div className="frontal-preview" data-testid="frontal-preview">
-            <svg viewBox="0 0 600 140" className="frontal-svg" preserveAspectRatio="xMidYMid meet">
-              <defs>
-                <linearGradient id="leatherGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#5a4a3a"/>
-                  <stop offset="40%" stopColor="#3a2a1a"/>
-                  <stop offset="60%" stopColor="#2a1a0a"/>
-                  <stop offset="100%" stopColor="#4a3a2a"/>
-                </linearGradient>
-                <radialGradient id="goldGrad">
-                  <stop offset="0%" stopColor="#ffd700"/>
-                  <stop offset="50%" stopColor="#daa520"/>
-                  <stop offset="100%" stopColor="#b8860b"/>
-                </radialGradient>
-              </defs>
-              
-              {/* Fond beige/fourrure */}
-              <rect x="0" y="0" width="600" height="140" fill="#e8dcc8"/>
-              
-              {/* Ombre du cuir */}
-              <path 
-                d="M 50 100 Q 300 25 550 100" 
-                fill="none" 
-                stroke="rgba(0,0,0,0.3)" 
-                strokeWidth="34"
-                strokeLinecap="round"
-              />
-              
-              {/* Bande de cuir principale */}
-              <path 
-                d="M 50 100 Q 300 25 550 100" 
-                fill="none" 
-                stroke="url(#leatherGrad)" 
-                strokeWidth="30"
-                strokeLinecap="round"
-              />
-              
-              {/* Ligne de couture haute */}
-              <path 
-                d="M 55 98 Q 300 28 545 98" 
-                fill="none" 
-                stroke="rgba(139,69,19,0.4)" 
-                strokeWidth="1"
-                strokeDasharray="4,3"
-              />
-              
-              {/* Ligne de couture basse */}
-              <path 
-                d="M 55 102 Q 300 22 545 102" 
-                fill="none" 
-                stroke="rgba(139,69,19,0.4)" 
-                strokeWidth="1"
-                strokeDasharray="4,3"
-              />
-              
-              {/* Pierres sur la courbe */}
-              {selectedStones.length > 0 && Array.from({ length: selectedSize.stones }, (_, index) => {
-                const stone = selectedStones[index % selectedStones.length];
-                // Position sur la courbe avec marges
-                const totalStones = selectedSize.stones;
-                const t = 0.06 + (index / Math.max(totalStones - 1, 1)) * 0.88;
-                
-                // Courbe de Bézier quadratique P0(50,100) Q(300,25) P2(550,100)
-                const x = (1-t)*(1-t)*50 + 2*(1-t)*t*300 + t*t*550;
-                const y = (1-t)*(1-t)*100 + 2*(1-t)*t*25 + t*t*100;
-                
-                return (
-                  <g key={index} data-testid={`preview-stone-${index}`} style={{zIndex: 100}}>
-                    <circle cx={x} cy={y} r="10" fill="#ff0000" stroke="#000" strokeWidth="1"/>
-                    <circle cx={x} cy={y} r="7" fill="#daa520"/>
-                    <circle cx={x} cy={y} r="5" fill={stone.color}/>
-                    <circle cx={x-1.5} cy={y-1.5} r="1.5" fill="white" fillOpacity="0.7"/>
-                  </g>
-                );
-              })}
-              
-              {selectedStones.length === 0 && (
-                <text x="300" y="70" textAnchor="middle" fill="#8b8b8b" fontSize="14" fontStyle="italic">
-                  Sélectionnez des pierres ci-dessous
-                </text>
-              )}
-              
+            <div className="frontal-container">
               {/* Attache gauche */}
-              <ellipse cx="45" cy="102" rx="12" ry="10" fill="#3a2a1a"/>
-              <circle cx="45" cy="102" r="7" fill="url(#goldGrad)"/>
-              <circle cx="45" cy="102" r="4" fill="#8b7533"/>
+              <div className="frontal-clip left"></div>
+              
+              {/* Bande de cuir avec pierres */}
+              <div className="frontal-band">
+                {selectedStones.length > 0 ? (
+                  Array.from({ length: selectedSize.stones }, (_, index) => {
+                    const stone = selectedStones[index % selectedStones.length];
+                    return (
+                      <div 
+                        key={index} 
+                        className="stone-wrapper"
+                        data-testid={`preview-stone-${index}`}
+                      >
+                        <div 
+                          className="stone-crystal"
+                          style={{ backgroundColor: stone.color }}
+                        >
+                          <div className="stone-shine"></div>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <span className="empty-text">Sélectionnez des pierres ci-dessous</span>
+                )}
+              </div>
               
               {/* Attache droite */}
-              <ellipse cx="555" cy="102" rx="12" ry="10" fill="#3a2a1a"/>
-              <circle cx="555" cy="102" r="7" fill="url(#goldGrad)"/>
-              <circle cx="555" cy="102" r="4" fill="#8b7533"/>
-            </svg>
+              <div className="frontal-clip right"></div>
+            </div>
           </div>
 
           {/* Infos sélection */}
