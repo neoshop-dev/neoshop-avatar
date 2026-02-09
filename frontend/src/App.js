@@ -223,9 +223,9 @@ function App() {
               <div className="selected-stones-list">
                 {selectedStones.map((stone, index) => {
                   const displaySize = 36;
-                  const scale = displaySize / STONE_SIZE;
-                  const offsetX = (stone.spriteX + STONE_SIZE/2) * scale - displaySize/2;
-                  const offsetY = (stone.spriteY + STONE_SIZE/2) * scale - displaySize/2;
+                  const scale = displaySize / 140;
+                  const offsetX = stone.centerX * scale - displaySize/2;
+                  const offsetY = stone.centerY * scale - displaySize/2;
                   
                   return (
                     <div 
@@ -239,7 +239,7 @@ function App() {
                         style={{ 
                           backgroundImage: `url(${STRASS_IMAGE_URL})`,
                           backgroundPosition: `-${offsetX}px -${offsetY}px`,
-                          backgroundSize: `${816 * scale}px ${1028 * scale}px`,
+                          backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
                         }}
                       />
                       <span className="stone-name">{stone.name}</span>
