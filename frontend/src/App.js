@@ -131,51 +131,51 @@ function App() {
         <section className="preview-section" data-testid="preview-section">
           <h2>Prévisualisation</h2>
           
-          {/* Frontal avec image réelle et pierres superposées */}
+          {/* Frontal avec image réelle vide et strass superposés */}
           <div className="frontal-preview" data-testid="frontal-preview">
             <div className="frontal-image-container">
-              {/* Image réelle du frontal */}
+              {/* Image du frontal vide */}
               <img 
-                src="https://customer-assets.emergentagent.com/job_frontal-custom/artifacts/wsm6tdca_frontal-clips-incurve-en-cristal-personnalisable-plusieurs-couleurs-2419551.jpg"
+                src={FRONTAL_VIDE_URL}
                 alt="Frontal personnalisable"
                 className="frontal-real-image"
               />
               
-              {/* Pierres superposées sur la courbe */}
+              {/* Strass superposés sur la gouttière */}
               {selectedStones.length > 0 && (
                 <div className="stones-overlay">
                   {Array.from({ length: selectedSize.stones }, (_, index) => {
                     const stone = selectedStones[index % selectedStones.length];
                     const progress = index / (selectedSize.stones - 1);
                     
-                    // La courbe du frontal dans l'image suit un arc:
-                    // Du haut-gauche (environ 35%, 3%) vers le milieu-gauche (25%, 50%) 
-                    // puis vers le bas-gauche (35%, 97%)
-                    
-                    // Courbe quadratique de Bézier pour X
-                    const xStart = 35;
-                    const xControl = 22; // point de contrôle plus à gauche
-                    const xEnd = 38;
+                    // Trajectoire précise de la gouttière du frontal vide
+                    // La gouttière va du haut-gauche vers le bas en arc
+                    const xStart = 36;
+                    const xControl = 20;
+                    const xEnd = 40;
                     const x = (1-progress)*(1-progress)*xStart + 2*(1-progress)*progress*xControl + progress*progress*xEnd;
                     
-                    // Y: distribution linéaire du haut vers le bas
-                    const yStart = 4;
-                    const yEnd = 95;
+                    const yStart = 2;
+                    const yEnd = 97;
                     const y = yStart + progress * (yEnd - yStart);
+                    
+                    // Position dans l'image des strass (grille 5 colonnes, 4 lignes)
+                    const stoneX = stone.position.col * 20;
+                    const stoneY = stone.position.row * 24.5;
                     
                     return (
                       <div 
                         key={index}
-                        className="overlay-stone"
+                        className="overlay-strass"
                         data-testid={`preview-stone-${index}`}
                         style={{
                           left: `${x}%`,
                           top: `${y}%`,
-                          backgroundColor: stone.color,
+                          backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                          backgroundPosition: `-${stoneX * 2.1}px -${stoneY * 2.1}px`,
+                          backgroundSize: '1050%',
                         }}
-                      >
-                        <div className="stone-shine-overlay"></div>
-                      </div>
+                      />
                     );
                   })}
                 </div>
