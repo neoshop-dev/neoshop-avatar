@@ -125,30 +125,111 @@ function App() {
         <section className="preview-section" data-testid="preview-section">
           <h2>Prévisualisation</h2>
           
-          {/* Frontal visuel */}
+          {/* Frontal visuel courbé */}
           <div className="frontal-preview" data-testid="frontal-preview">
-            <div className="frontal-band">
-              <div className="frontal-end left"></div>
-              <div className="stones-container">
-                {pattern.length > 0 ? (
-                  pattern.map((stone, index) => (
-                    <div
-                      key={index}
-                      className="stone"
-                      style={{ 
-                        background: `radial-gradient(circle at 30% 30%, ${stone.color}ee, ${stone.color})`,
-                        boxShadow: `0 2px 8px ${stone.color}66, inset 0 -2px 4px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.3)`
-                      }}
-                      title={stone.name}
-                      data-testid={`preview-stone-${index}`}
-                    />
-                  ))
-                ) : (
-                  <div className="empty-message">Sélectionnez des pierres ci-dessous</div>
-                )}
-              </div>
-              <div className="frontal-end right"></div>
-            </div>
+            <svg viewBox="0 0 500 120" className="frontal-svg">
+              {/* Fond fourrure */}
+              <defs>
+                <linearGradient id="furGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#e8dcc8"/>
+                  <stop offset="50%" stopColor="#d4c4a8"/>
+                  <stop offset="100%" stopColor="#c9b898"/>
+                </linearGradient>
+                <filter id="leather-texture">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+                  <feDiffuseLighting in="noise" lightingColor="#3a2a1a" surfaceScale="1">
+                    <feDistantLight azimuth="45" elevation="60"/>
+                  </feDiffuseLighting>
+                </filter>
+                <linearGradient id="leatherGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#4a3a2a"/>
+                  <stop offset="30%" stopColor="#3a2a1a"/>
+                  <stop offset="70%" stopColor="#2a1a0a"/>
+                  <stop offset="100%" stopColor="#3a2a1a"/>
+                </linearGradient>
+              </defs>
+              
+              {/* Fond */}
+              <rect x="0" y="0" width="500" height="120" fill="url(#furGradient)"/>
+              
+              {/* Bande de cuir courbée */}
+              <path 
+                d="M 30 90 Q 250 20 470 90" 
+                fill="none" 
+                stroke="url(#leatherGradient)" 
+                strokeWidth="28"
+                strokeLinecap="round"
+              />
+              
+              {/* Coutures */}
+              <path 
+                d="M 30 90 Q 250 20 470 90" 
+                fill="none" 
+                stroke="#1a0a00" 
+                strokeWidth="30"
+                strokeLinecap="round"
+                opacity="0.3"
+              />
+              <path 
+                d="M 30 90 Q 250 20 470 90" 
+                fill="none" 
+                stroke="url(#leatherGradient)" 
+                strokeWidth="26"
+                strokeLinecap="round"
+              />
+              
+              {/* Pierres sur la courbe */}
+              {pattern.length > 0 ? (
+                pattern.map((stone, index) => {
+                  const t = (index + 0.5) / pattern.length;
+                  // Courbe de Bézier quadratique: Q(t) = (1-t)²P0 + 2(1-t)tP1 + t²P2
+                  const x = Math.pow(1-t, 2) * 30 + 2 * (1-t) * t * 250 + Math.pow(t, 2) * 470;
+                  const y = Math.pow(1-t, 2) * 90 + 2 * (1-t) * t * 20 + Math.pow(t, 2) * 90;
+                  
+                  return (
+                    <g key={index} data-testid={`preview-stone-${index}`}>
+                      {/* Griffe dorée */}
+                      <circle cx={x} cy={y} r="11" fill="#8b7533" opacity="0.9"/>
+                      <circle cx={x} cy={y} r="10" fill="#c9a227"/>
+                      {/* Pierre */}
+                      <circle 
+                        cx={x} 
+                        cy={y} 
+                        r="8" 
+                        fill={stone.color}
+                        style={{
+                          filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.4))'
+                        }}
+                      />
+                      {/* Reflet brillant */}
+                      <ellipse 
+                        cx={x - 2} 
+                        cy={y - 2} 
+                        rx="3" 
+                        ry="2" 
+                        fill="rgba(255,255,255,0.6)"
+                      />
+                      <circle 
+                        cx={x - 3} 
+                        cy={y - 3} 
+                        r="1.5" 
+                        fill="rgba(255,255,255,0.8)"
+                      />
+                    </g>
+                  );
+                })
+              ) : (
+                <text x="250" y="60" textAnchor="middle" fill="#8b8b8b" fontSize="14" fontStyle="italic">
+                  Sélectionnez des pierres ci-dessous
+                </text>
+              )}
+              
+              {/* Attaches aux extrémités */}
+              <circle cx="25" cy="92" r="8" fill="#c9a227"/>
+              <circle cx="25" cy="92" r="5" fill="#8b7533"/>
+              <circle cx="475" cy="92" r="8" fill="#c9a227"/>
+              <circle cx="475" cy="92" r="5" fill="#8b7533"/>
+            </svg>
           </div>
 
           {/* Infos sélection */}
