@@ -160,9 +160,11 @@ function App() {
                     const yEnd = 97;
                     const y = yStart + progress * (yEnd - yStart);
                     
-                    // Calcul du scale pour l'overlay (18px sur écran = STONE_SIZE dans sprite)
+                    // Calcul du scale et centrage
                     const overlaySize = 18;
                     const scale = overlaySize / STONE_SIZE;
+                    const offsetX = (stone.spriteX + STONE_SIZE/2) * scale - overlaySize/2;
+                    const offsetY = (stone.spriteY + STONE_SIZE/2) * scale - overlaySize/2;
                     
                     return (
                       <div 
@@ -173,7 +175,7 @@ function App() {
                           left: `${x}%`,
                           top: `${y}%`,
                           backgroundImage: `url(${STRASS_IMAGE_URL})`,
-                          backgroundPosition: `-${stone.spriteX * scale}px -${stone.spriteY * scale}px`,
+                          backgroundPosition: `-${offsetX}px -${offsetY}px`,
                           backgroundSize: `${816 * scale}px ${1028 * scale}px`,
                         }}
                       />
