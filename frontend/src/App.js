@@ -152,14 +152,14 @@ function App() {
                     const stone = selectedStones[index % selectedStones.length];
                     const progress = index / (selectedSize.stones - 1);
                     
-                    // Trajectoire EXACTE de la gouttière blanche (ajustée)
-                    // La gouttière va du haut-gauche vers le bas-droite
+                    // Trajectoire EXACTE de la gouttière blanche
+                    // Ajustée pour être parfaitement dans le canal blanc
                     const points = [
-                      { x: 20, y: 18 },
-                      { x: 24, y: 28 },
-                      { x: 30, y: 42 },
-                      { x: 38, y: 56 },
-                      { x: 48, y: 72 }
+                      { x: 17, y: 16 },
+                      { x: 21, y: 27 },
+                      { x: 27, y: 40 },
+                      { x: 35, y: 54 },
+                      { x: 45, y: 70 }
                     ];
                     
                     // Catmull-Rom spline interpolation
