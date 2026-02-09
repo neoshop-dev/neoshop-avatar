@@ -10,7 +10,7 @@ Création d'un configurateur de frontal pour chevaux personnalisable pour le sit
 
 ## User Personas
 - Cavaliers propriétaires de chevaux
-- Acheteurs de produits équestres
+- Acheteurs de produits équestres sur Shopify
 
 ## Core Requirements (Static)
 - 19 couleurs de pierres disponibles
@@ -22,17 +22,26 @@ Création d'un configurateur de frontal pour chevaux personnalisable pour le sit
 
 ## Implémenté (Février 2026)
 - ✅ Interface de sélection de pierres avec grille visuelle
-- ✅ Prévisualisation du frontal avec pattern répétitif
-- ✅ Sélection de taille
-- ✅ Export HTML avec code prêt pour Shopify
+- ✅ Prévisualisation du frontal en cuir marron avec pierres et attaches dorées
+- ✅ Pattern répétitif des pierres sur la bande de cuir
+- ✅ Sélection de taille (Poney, Cob, Full, XL)
+- ✅ Export HTML avec code prêt pour Shopify + properties pour panier
 - ✅ Bouton copier le code
 - ✅ Récapitulatif de commande
 - ✅ Design responsive
 
+## Tests Passés
+- ✅ Sélection de pierres (max 5)
+- ✅ Affichage pattern répétitif
+- ✅ Changement de taille
+- ✅ Suppression de pierre
+- ✅ Export modal
+- ✅ Code HTML généré correctement
+
 ## Backlog P0/P1/P2
-- P2: Ajout d'images réelles des pierres
+- P2: Forme courbée du frontal (SVG)
 - P2: Sauvegarde des configurations
 - P2: Partage social de la création
 
 ## Next Tasks
-- Aucune tâche en attente - MVP complet
+- Aucune tâche critique - MVP complet
