@@ -152,10 +152,11 @@ function App() {
                     const stone = selectedStones[index % selectedStones.length];
                     const progress = index / (selectedSize.stones - 1);
                     
-                    // Trajectoire de la gouttière du frontal vide
-                    const xStart = 36;
-                    const xControl = 20;
-                    const xEnd = 40;
+                    // Trajectoire de la gouttière du frontal vide - ajustée
+                    // La gouttière est légèrement à gauche du centre et fait un arc
+                    const xStart = 32;
+                    const xControl = 16;
+                    const xEnd = 36;
                     const x = (1-progress)*(1-progress)*xStart + 2*(1-progress)*progress*xControl + progress*progress*xEnd;
                     
                     const yStart = 2;
