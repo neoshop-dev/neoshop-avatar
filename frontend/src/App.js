@@ -193,16 +193,11 @@ function App() {
                 const y = (1-t)*(1-t)*100 + 2*(1-t)*t*25 + t*t*100;
                 
                 return (
-                  <g key={index} data-testid={`preview-stone-${index}`}>
-                    {/* Base griffe dorée */}
-                    <circle cx={x} cy={y} r="9" fill="#8b7533"/>
-                    {/* Griffe dorée brillante */}
-                    <circle cx={x} cy={y} r="8" fill="#daa520"/>
-                    {/* Pierre cristal */}
-                    <circle cx={x} cy={y} r="6" fill={stone.color}/>
-                    {/* Reflet */}
-                    <ellipse cx={x-1.5} cy={y-1.5} rx="2" ry="1.2" fill="rgba(255,255,255,0.6)"/>
-                    <circle cx={x-2} cy={y-2} r="0.8" fill="white"/>
+                  <g key={index} data-testid={`preview-stone-${index}`} style={{zIndex: 100}}>
+                    <circle cx={x} cy={y} r="10" fill="#ff0000" stroke="#000" strokeWidth="1"/>
+                    <circle cx={x} cy={y} r="7" fill="#daa520"/>
+                    <circle cx={x} cy={y} r="5" fill={stone.color}/>
+                    <circle cx={x-1.5} cy={y-1.5} r="1.5" fill="white" fillOpacity="0.7"/>
                   </g>
                 );
               })}
