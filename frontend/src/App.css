@@ -311,16 +311,29 @@ section h2 .hint {
 /* Stones Grid */
 .stones-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .stones-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stones-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .stone-option {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 16px 8px;
+  gap: 8px;
+  padding: 12px 6px;
   background: var(--bg-secondary);
   border: 2px solid var(--border);
   border-radius: 12px;
