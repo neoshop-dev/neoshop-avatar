@@ -2,30 +2,32 @@ import { useState, useCallback } from "react";
 import "@/App.css";
 
 // Données des pierres disponibles avec images
+// Image 816x1028px, grille 5x4, chaque gemme ~140x140px
 const STONES = [
-  { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f", position: { row: 0, col: 0 } },
-  { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50", position: { row: 0, col: 1 } },
-  { id: "saphir", name: "Saphir", color: "#1a4ecf", position: { row: 0, col: 2 } },
-  { id: "or", name: "Or", color: "#d4af37", position: { row: 0, col: 3 } },
-  { id: "rose", name: "Rose", color: "#f8c8dc", position: { row: 0, col: 4 } },
-  { id: "bordeaux", name: "Bordeaux", color: "#5c1a2e", position: { row: 1, col: 0 } },
-  { id: "argent", name: "Argent", color: "#e8e8e8", position: { row: 1, col: 1 } },
-  { id: "marron", name: "Marron", color: "#8b7355", position: { row: 1, col: 2 } },
-  { id: "fushia", name: "Fushia", color: "#c4196f", position: { row: 1, col: 3 } },
-  { id: "amethyst", name: "Amethyst", color: "#d8a9d8", position: { row: 1, col: 4 } },
-  { id: "vitrail-clair", name: "Vitrail clair", color: "#e8d5f0", position: { row: 2, col: 0 } },
-  { id: "emeraude", name: "Emeraude", color: "#1b8b5a", position: { row: 2, col: 1 } },
-  { id: "saphir-fume", name: "Saphir fumé", color: "#6b8e9f", position: { row: 2, col: 2 } },
-  { id: "bleu-ciel", name: "Bleu ciel", color: "#87ceeb", position: { row: 2, col: 3 } },
-  { id: "noir-diamant", name: "Noir diamant", color: "#4a4a4a", position: { row: 2, col: 4 } },
-  { id: "orange", name: "Orange", color: "#ff8c00", position: { row: 3, col: 0 } },
-  { id: "violet", name: "Violet", color: "#9b7bb8", position: { row: 3, col: 1 } },
-  { id: "bleu-canard", name: "Bleu canard", color: "#2aa198", position: { row: 3, col: 2 } },
-  { id: "noir-intense", name: "Noir intense", color: "#1a1a1a", position: { row: 3, col: 3 } },
+  { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f", spriteX: 30, spriteY: 25 },
+  { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50", spriteX: 205, spriteY: 25 },
+  { id: "saphir", name: "Saphir", color: "#1a4ecf", spriteX: 380, spriteY: 25 },
+  { id: "or", name: "Or", color: "#d4af37", spriteX: 555, spriteY: 25 },
+  { id: "rose", name: "Rose", color: "#f8c8dc", spriteX: 730, spriteY: 25 },
+  { id: "bordeaux", name: "Bordeaux", color: "#5c1a2e", spriteX: 30, spriteY: 210 },
+  { id: "argent", name: "Argent", color: "#e8e8e8", spriteX: 205, spriteY: 210 },
+  { id: "marron", name: "Marron", color: "#8b7355", spriteX: 380, spriteY: 210 },
+  { id: "fushia", name: "Fushia", color: "#c4196f", spriteX: 555, spriteY: 210 },
+  { id: "amethyst", name: "Amethyst", color: "#d8a9d8", spriteX: 730, spriteY: 210 },
+  { id: "vitrail-clair", name: "Vitrail clair", color: "#e8d5f0", spriteX: 30, spriteY: 395 },
+  { id: "emeraude", name: "Emeraude", color: "#1b8b5a", spriteX: 205, spriteY: 395 },
+  { id: "saphir-fume", name: "Saphir fumé", color: "#6b8e9f", spriteX: 380, spriteY: 395 },
+  { id: "bleu-ciel", name: "Bleu ciel", color: "#87ceeb", spriteX: 555, spriteY: 395 },
+  { id: "noir-diamant", name: "Noir diamant", color: "#4a4a4a", spriteX: 730, spriteY: 395 },
+  { id: "orange", name: "Orange", color: "#ff8c00", spriteX: 30, spriteY: 580 },
+  { id: "violet", name: "Violet", color: "#9b7bb8", spriteX: 205, spriteY: 580 },
+  { id: "bleu-canard", name: "Bleu canard", color: "#2aa198", spriteX: 380, spriteY: 580 },
+  { id: "noir-intense", name: "Noir intense", color: "#1a1a1a", spriteX: 555, spriteY: 580 },
 ];
 
-// URL de l'image des strass
+// URL de l'image des strass (816x1028px)
 const STRASS_IMAGE_URL = "https://customer-assets.emergentagent.com/job_frontal-custom/artifacts/1savtp9b_frontal-clips-incurve-en-cristal-personnalisable-plusieurs-couleurs-4623906.png";
+const STONE_SIZE = 140; // Taille de chaque gemme dans le sprite
 
 // URL du frontal vide
 const FRONTAL_VIDE_URL = "https://customer-assets.emergentagent.com/job_frontal-custom/artifacts/fhx4ipga_1770657882636.png";
