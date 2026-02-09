@@ -143,17 +143,20 @@ function App() {
                     // Calcul de la position le long de la courbe du frontal
                     const progress = index / (selectedSize.stones - 1);
                     
-                    // La courbe va de haut-gauche vers bas-droite dans l'image
-                    // Approximation de la trajectoire courbée
-                    const startX = 8;
-                    const endX = 92;
-                    const x = startX + progress * (endX - startX);
+                    // La courbe du frontal dans l'image: 
+                    // Part du haut-gauche vers le bas-droite en arc
+                    // Points approximatifs: (55%, 2%) -> (48%, 50%) -> (55%, 98%)
                     
-                    // Courbe parabolique pour suivre l'arc du frontal
-                    const midY = 15;
-                    const endY = 88;
-                    const curveHeight = 73;
-                    const y = midY + 4 * curveHeight * progress * (1 - progress) + progress * (endY - midY - curveHeight * 0.25);
+                    // X: légèrement vers la gauche au milieu
+                    const xStart = 55;
+                    const xMid = 46;
+                    const xEnd = 56;
+                    const x = xStart + 2 * progress * (1 - progress) * (xMid - xStart) + progress * progress * (xEnd - xStart);
+                    
+                    // Y: distribution linéaire du haut vers le bas
+                    const yStart = 3;
+                    const yEnd = 96;
+                    const y = yStart + progress * (yEnd - yStart);
                     
                     return (
                       <div 
