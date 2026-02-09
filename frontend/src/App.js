@@ -1,28 +1,34 @@
 import { useState, useCallback } from "react";
 import "@/App.css";
 
-// Données des pierres disponibles
+// Données des pierres disponibles avec images
 const STONES = [
-  { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f" },
-  { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50" },
-  { id: "saphir", name: "Saphir", color: "#1a4ecf" },
-  { id: "or", name: "Or", color: "#d4af37" },
-  { id: "rose", name: "Rose", color: "#f8c8dc" },
-  { id: "bordeaux", name: "Bordeaux", color: "#5c1a2e" },
-  { id: "argent", name: "Argent", color: "#e8e8e8" },
-  { id: "marron", name: "Marron", color: "#8b7355" },
-  { id: "fushia", name: "Fushia", color: "#c4196f" },
-  { id: "amethyst", name: "Amethyst", color: "#d8a9d8" },
-  { id: "vitrail-clair", name: "Vitrail clair", color: "#e8d5f0" },
-  { id: "emeraude", name: "Emeraude", color: "#1b8b5a" },
-  { id: "saphir-fume", name: "Saphir fumé", color: "#6b8e9f" },
-  { id: "bleu-ciel", name: "Bleu ciel", color: "#87ceeb" },
-  { id: "noir-diamant", name: "Noir diamant", color: "#4a4a4a" },
-  { id: "orange", name: "Orange", color: "#ff8c00" },
-  { id: "violet", name: "Violet", color: "#9b7bb8" },
-  { id: "bleu-canard", name: "Bleu canard", color: "#2aa198" },
-  { id: "noir-intense", name: "Noir intense", color: "#1a1a1a" },
+  { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f", position: { row: 0, col: 0 } },
+  { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50", position: { row: 0, col: 1 } },
+  { id: "saphir", name: "Saphir", color: "#1a4ecf", position: { row: 0, col: 2 } },
+  { id: "or", name: "Or", color: "#d4af37", position: { row: 0, col: 3 } },
+  { id: "rose", name: "Rose", color: "#f8c8dc", position: { row: 0, col: 4 } },
+  { id: "bordeaux", name: "Bordeaux", color: "#5c1a2e", position: { row: 1, col: 0 } },
+  { id: "argent", name: "Argent", color: "#e8e8e8", position: { row: 1, col: 1 } },
+  { id: "marron", name: "Marron", color: "#8b7355", position: { row: 1, col: 2 } },
+  { id: "fushia", name: "Fushia", color: "#c4196f", position: { row: 1, col: 3 } },
+  { id: "amethyst", name: "Amethyst", color: "#d8a9d8", position: { row: 1, col: 4 } },
+  { id: "vitrail-clair", name: "Vitrail clair", color: "#e8d5f0", position: { row: 2, col: 0 } },
+  { id: "emeraude", name: "Emeraude", color: "#1b8b5a", position: { row: 2, col: 1 } },
+  { id: "saphir-fume", name: "Saphir fumé", color: "#6b8e9f", position: { row: 2, col: 2 } },
+  { id: "bleu-ciel", name: "Bleu ciel", color: "#87ceeb", position: { row: 2, col: 3 } },
+  { id: "noir-diamant", name: "Noir diamant", color: "#4a4a4a", position: { row: 2, col: 4 } },
+  { id: "orange", name: "Orange", color: "#ff8c00", position: { row: 3, col: 0 } },
+  { id: "violet", name: "Violet", color: "#9b7bb8", position: { row: 3, col: 1 } },
+  { id: "bleu-canard", name: "Bleu canard", color: "#2aa198", position: { row: 3, col: 2 } },
+  { id: "noir-intense", name: "Noir intense", color: "#1a1a1a", position: { row: 3, col: 3 } },
 ];
+
+// URL de l'image des strass
+const STRASS_IMAGE_URL = "https://customer-assets.emergentagent.com/job_frontal-custom/artifacts/1savtp9b_frontal-clips-incurve-en-cristal-personnalisable-plusieurs-couleurs-4623906.png";
+
+// URL du frontal vide
+const FRONTAL_VIDE_URL = "https://customer-assets.emergentagent.com/job_frontal-custom/artifacts/fhx4ipga_1770657882636.png";
 
 const SIZES = [
   { id: "poney", name: "Poney", stones: 25 },
