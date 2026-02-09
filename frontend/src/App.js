@@ -218,8 +218,10 @@ function App() {
               <h3>Votre sélection:</h3>
               <div className="selected-stones-list">
                 {selectedStones.map((stone, index) => {
-                  const displaySize = 40;
+                  const displaySize = 36;
                   const scale = displaySize / STONE_SIZE;
+                  const offsetX = (stone.spriteX + STONE_SIZE/2) * scale - displaySize/2;
+                  const offsetY = (stone.spriteY + STONE_SIZE/2) * scale - displaySize/2;
                   
                   return (
                     <div 
@@ -232,7 +234,7 @@ function App() {
                         className="stone-preview-image" 
                         style={{ 
                           backgroundImage: `url(${STRASS_IMAGE_URL})`,
-                          backgroundPosition: `-${stone.spriteX * scale}px -${stone.spriteY * scale}px`,
+                          backgroundPosition: `-${offsetX}px -${offsetY}px`,
                           backgroundSize: `${816 * scale}px ${1028 * scale}px`,
                         }}
                       />
