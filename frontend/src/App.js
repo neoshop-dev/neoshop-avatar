@@ -182,32 +182,33 @@ function App() {
               />
               
               {/* Pierres sur la courbe */}
-              {pattern.length > 0 ? (
-                pattern.map((stone, index) => {
-                  // Position sur la courbe avec marges
-                  const margin = 0.08;
-                  const t = margin + (index / (pattern.length - 1 || 1)) * (1 - 2 * margin);
-                  
-                  // Courbe de Bézier quadratique P0(50,100) Q(300,25) P2(550,100)
-                  const x = (1-t)*(1-t)*50 + 2*(1-t)*t*300 + t*t*550;
-                  const y = (1-t)*(1-t)*100 + 2*(1-t)*t*25 + t*t*100;
-                  
-                  return (
-                    <g key={index} data-testid={`preview-stone-${index}`}>
-                      {/* Base griffe dorée */}
-                      <circle cx={x} cy={y} r="9" fill="#8b7533"/>
-                      {/* Griffe dorée brillante */}
-                      <circle cx={x} cy={y} r="8" fill="url(#goldGrad)"/>
-                      {/* Pierre cristal */}
-                      <circle cx={x} cy={y} r="6.5" fill={stone.color}/>
-                      {/* Reflet principal */}
-                      <ellipse cx={x-1.5} cy={y-1.5} rx="2.5" ry="1.5" fill="rgba(255,255,255,0.7)"/>
-                      {/* Point brillant */}
-                      <circle cx={x-2} cy={y-2} r="1" fill="white"/>
-                    </g>
-                  );
-                })
-              ) : (
+              {selectedStones.length > 0 && Array.from({ length: selectedSize.stones }, (_, index) => {
+                const stone = selectedStones[index % selectedStones.length];
+                // Position sur la courbe avec marges
+                const totalStones = selectedSize.stones;
+                const t = 0.06 + (index / Math.max(totalStones - 1, 1)) * 0.88;
+                
+                // Courbe de Bézier quadratique P0(50,100) Q(300,25) P2(550,100)
+                const x = (1-t)*(1-t)*50 + 2*(1-t)*t*300 + t*t*550;
+                const y = (1-t)*(1-t)*100 + 2*(1-t)*t*25 + t*t*100;
+                
+                return (
+                  <g key={index} data-testid={`preview-stone-${index}`}>
+                    {/* Base griffe dorée */}
+                    <circle cx={x} cy={y} r="9" fill="#8b7533"/>
+                    {/* Griffe dorée brillante */}
+                    <circle cx={x} cy={y} r="8" fill="url(#goldGrad)"/>
+                    {/* Pierre cristal */}
+                    <circle cx={x} cy={y} r="6.5" fill={stone.color}/>
+                    {/* Reflet principal */}
+                    <ellipse cx={x-1.5} cy={y-1.5} rx="2.5" ry="1.5" fill="rgba(255,255,255,0.7)"/>
+                    {/* Point brillant */}
+                    <circle cx={x-2} cy={y-2} r="1" fill="white"/>
+                  </g>
+                );
+              })}
+              
+              {selectedStones.length === 0 && (
                 <text x="300" y="70" textAnchor="middle" fill="#8b8b8b" fontSize="14" fontStyle="italic">
                   Sélectionnez des pierres ci-dessous
                 </text>
