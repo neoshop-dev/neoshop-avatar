@@ -2,28 +2,28 @@ import { useState, useCallback } from "react";
 import "@/App.css";
 
 // Données des pierres disponibles avec images
-// Image 816x1028px, grille 5x4, chaque gemme ~140x140px
-// Coordonnées = centre de chaque gemme dans le sprite
+// Image 816x1028px, grille 5x4
+// Les rangées sont espacées d'environ 257px, les gemmes sont centrées ~95px depuis le haut de chaque cellule
 const STONES = [
-  { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f", centerX: 100, centerY: 95 },
-  { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50", centerX: 275, centerY: 95 },
-  { id: "saphir", name: "Saphir", color: "#1a4ecf", centerX: 450, centerY: 95 },
-  { id: "or", name: "Or", color: "#d4af37", centerX: 625, centerY: 95 },
-  { id: "rose", name: "Rose", color: "#f8c8dc", centerX: 800, centerY: 95 },
-  { id: "bordeaux", name: "Bordeaux", color: "#5c1a2e", centerX: 100, centerY: 280 },
-  { id: "argent", name: "Argent", color: "#e8e8e8", centerX: 275, centerY: 280 },
-  { id: "marron", name: "Marron", color: "#8b7355", centerX: 450, centerY: 280 },
-  { id: "fushia", name: "Fushia", color: "#c4196f", centerX: 625, centerY: 280 },
-  { id: "amethyst", name: "Amethyst", color: "#d8a9d8", centerX: 800, centerY: 280 },
-  { id: "vitrail-clair", name: "Vitrail clair", color: "#e8d5f0", centerX: 100, centerY: 465 },
-  { id: "emeraude", name: "Emeraude", color: "#1b8b5a", centerX: 275, centerY: 465 },
-  { id: "saphir-fume", name: "Saphir fumé", color: "#6b8e9f", centerX: 450, centerY: 465 },
-  { id: "bleu-ciel", name: "Bleu ciel", color: "#87ceeb", centerX: 625, centerY: 465 },
-  { id: "noir-diamant", name: "Noir diamant", color: "#4a4a4a", centerX: 800, centerY: 465 },
-  { id: "orange", name: "Orange", color: "#ff8c00", centerX: 100, centerY: 650 },
-  { id: "violet", name: "Violet", color: "#9b7bb8", centerX: 275, centerY: 650 },
-  { id: "bleu-canard", name: "Bleu canard", color: "#2aa198", centerX: 450, centerY: 650 },
-  { id: "noir-intense", name: "Noir intense", color: "#1a1a1a", centerX: 625, centerY: 650 },
+  { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f", centerX: 82, centerY: 75 },
+  { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50", centerX: 245, centerY: 75 },
+  { id: "saphir", name: "Saphir", color: "#1a4ecf", centerX: 408, centerY: 75 },
+  { id: "or", name: "Or", color: "#d4af37", centerX: 571, centerY: 75 },
+  { id: "rose", name: "Rose", color: "#f8c8dc", centerX: 734, centerY: 75 },
+  { id: "bordeaux", name: "Bordeaux", color: "#5c1a2e", centerX: 82, centerY: 332 },
+  { id: "argent", name: "Argent", color: "#e8e8e8", centerX: 245, centerY: 332 },
+  { id: "marron", name: "Marron", color: "#8b7355", centerX: 408, centerY: 332 },
+  { id: "fushia", name: "Fushia", color: "#c4196f", centerX: 571, centerY: 332 },
+  { id: "amethyst", name: "Amethyst", color: "#d8a9d8", centerX: 734, centerY: 332 },
+  { id: "vitrail-clair", name: "Vitrail clair", color: "#e8d5f0", centerX: 82, centerY: 589 },
+  { id: "emeraude", name: "Emeraude", color: "#1b8b5a", centerX: 245, centerY: 589 },
+  { id: "saphir-fume", name: "Saphir fumé", color: "#6b8e9f", centerX: 408, centerY: 589 },
+  { id: "bleu-ciel", name: "Bleu ciel", color: "#87ceeb", centerX: 571, centerY: 589 },
+  { id: "noir-diamant", name: "Noir diamant", color: "#4a4a4a", centerX: 734, centerY: 589 },
+  { id: "orange", name: "Orange", color: "#ff8c00", centerX: 82, centerY: 846 },
+  { id: "violet", name: "Violet", color: "#9b7bb8", centerX: 245, centerY: 846 },
+  { id: "bleu-canard", name: "Bleu canard", color: "#2aa198", centerX: 408, centerY: 846 },
+  { id: "noir-intense", name: "Noir intense", color: "#1a1a1a", centerX: 571, centerY: 846 },
 ];
 
 // URL de l'image des strass (816x1028px)
