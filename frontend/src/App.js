@@ -217,32 +217,37 @@ function App() {
             <div className="selected-stones" data-testid="selected-stones">
               <h3>Votre sélection:</h3>
               <div className="selected-stones-list">
-                {selectedStones.map((stone, index) => (
-                  <div 
-                    key={index} 
-                    className="selected-stone-item"
-                    data-testid={`selected-stone-${index}`}
-                  >
-                    <span className="order-number">{index + 1}</span>
+                {selectedStones.map((stone, index) => {
+                  const displaySize = 40;
+                  const scale = displaySize / STONE_SIZE;
+                  
+                  return (
                     <div 
-                      className="stone-preview-image" 
-                      style={{ 
-                        backgroundImage: `url(${STRASS_IMAGE_URL})`,
-                        backgroundPosition: `-${stone.position.col * 52}px -${stone.position.row * 64}px`,
-                        backgroundSize: '262px 256px',
-                      }}
-                    />
-                    <span className="stone-name">{stone.name}</span>
-                    <button 
-                      className="remove-btn"
-                      onClick={() => removeStone(index)}
-                      data-testid={`remove-stone-${index}`}
-                      aria-label={`Retirer ${stone.name}`}
+                      key={index} 
+                      className="selected-stone-item"
+                      data-testid={`selected-stone-${index}`}
                     >
-                      ×
-                    </button>
-                  </div>
-                ))}
+                      <span className="order-number">{index + 1}</span>
+                      <div 
+                        className="stone-preview-image" 
+                        style={{ 
+                          backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                          backgroundPosition: `-${stone.spriteX * scale}px -${stone.spriteY * scale}px`,
+                          backgroundSize: `${816 * scale}px ${1028 * scale}px`,
+                        }}
+                      />
+                      <span className="stone-name">{stone.name}</span>
+                      <button 
+                        className="remove-btn"
+                        onClick={() => removeStone(index)}
+                        data-testid={`remove-stone-${index}`}
+                        aria-label={`Retirer ${stone.name}`}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
               <button 
                 className="clear-btn"
