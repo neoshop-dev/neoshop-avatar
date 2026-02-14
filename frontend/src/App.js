@@ -156,8 +156,6 @@ function App() {
     }
   };
 
-  const pattern = generatePattern();
-
   return (
     <div className="app-container" data-testid="frontal-configurator">
       {/* Header */}
