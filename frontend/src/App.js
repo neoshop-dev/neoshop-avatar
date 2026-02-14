@@ -193,66 +193,38 @@ function App() {
                 className="frontal-real-image"
               />
               
-              {/* Strass superposés DANS la gouttière blanche */}
+              {/* Strass superposés sur les points blancs */}
               {selectedStones.length > 0 && (
                 <div className="stones-overlay">
-                  {Array.from({ length: selectedSize.stones }, (_, index) => {
-                    const stone = selectedStones[index % selectedStones.length];
-                    const progress = index / (selectedSize.stones - 1);
+                  {(() => {
+                    // Calculer quels points blancs utiliser en fonction de la taille
+                    const totalDots = WHITE_DOTS.length; // 44 points disponibles
+                    const stonesNeeded = selectedSize.stones;
                     
-                    // Trajectoire EXACTE de la gouttière blanche
-                    // Ajustée pour être parfaitement dans le canal blanc
-                    const points = [
-                      { x: 17, y: 16 },
-                      { x: 21, y: 27 },
-                      { x: 27, y: 40 },
-                      { x: 35, y: 54 },
-                      { x: 45, y: 70 }
-                    ];
+                    // Sélectionner les points de manière centrée et uniforme
+                    // On centre les pierres sur le frontal
+                    const startIndex = Math.floor((totalDots - stonesNeeded) / 2);
+                    const selectedDots = WHITE_DOTS.slice(startIndex, startIndex + stonesNeeded);
                     
-                    // Catmull-Rom spline interpolation
-                    const t = progress * (points.length - 1);
-                    const i = Math.min(Math.floor(t), points.length - 2);
-                    const f = t - i;
-                    
-                    const p0 = points[Math.max(0, i - 1)];
-                    const p1 = points[i];
-                    const p2 = points[Math.min(points.length - 1, i + 1)];
-                    const p3 = points[Math.min(points.length - 1, i + 2)];
-                    
-                    const x = 0.5 * (
-                      2 * p1.x +
-                      (-p0.x + p2.x) * f +
-                      (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * f * f +
-                      (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * f * f * f
-                    );
-                    const y = 0.5 * (
-                      2 * p1.y +
-                      (-p0.y + p2.y) * f +
-                      (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * f * f +
-                      (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * f * f * f
-                    );
-                    
-                    const overlaySize = 14;
-                    const scale = overlaySize / 140;
-                    const offsetX = stone.centerX * scale - overlaySize/2;
-                    const offsetY = stone.centerY * scale - overlaySize/2;
-                    
-                    return (
-                      <div 
-                        key={index}
-                        className="overlay-strass"
-                        data-testid={`preview-stone-${index}`}
-                        style={{
-                          left: `${x}%`,
-                          top: `${y}%`,
-                          backgroundImage: `url(${STRASS_IMAGE_URL})`,
-                          backgroundPosition: `-${offsetX}px -${offsetY}px`,
-                          backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
-                        }}
-                      />
-                    );
-                  })}
+                    return selectedDots.map((dot, index) => {
+                      const stone = selectedStones[index % selectedStones.length];
+                      
+                      return (
+                        <div 
+                          key={index}
+                          className="overlay-strass"
+                          data-testid={`preview-stone-${index}`}
+                          style={{
+                            left: `${dot.x}%`,
+                            top: `${dot.y}%`,
+                            backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                            backgroundPosition: `-${stone.centerX * 0.1 - 7}px -${stone.centerY * 0.1 - 7}px`,
+                            backgroundSize: `${SPRITE_WIDTH * 0.1}px ${SPRITE_HEIGHT * 0.1}px`,
+                          }}
+                        />
+                      );
+                    });
+                  })()}
                 </div>
               )}
               
