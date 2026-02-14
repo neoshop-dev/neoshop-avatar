@@ -190,7 +190,7 @@ function App() {
           
           {/* Frontal avec image réelle vide et strass superposés */}
           <div className="frontal-preview" data-testid="frontal-preview">
-            <div className="frontal-image-container">
+            <div className="frontal-image-container" ref={imageContainerRef}>
               {/* Image du frontal vide */}
               <img 
                 src={FRONTAL_VIDE_URL}
@@ -198,21 +198,30 @@ function App() {
                 className="frontal-real-image"
               />
               
-              {/* Strass superposés sur les points blancs */}
-              {selectedStones.length > 0 && (
+              {/* Strass superposés sur les points blancs - vraies images des cristaux */}
+              {selectedStones.length > 0 && containerWidth > 0 && (
                 <div className="stones-overlay">
                   {(() => {
                     // Calculer quels points blancs utiliser en fonction de la taille
-                    const totalDots = WHITE_DOTS.length; // 44 points disponibles
-                    const stonesNeeded = selectedSize.stones;
+                    const totalDots = WHITE_DOTS.length; // 42 points disponibles
+                    const stonesNeeded = Math.min(selectedSize.stones, totalDots);
                     
-                    // Sélectionner les points de manière centrée et uniforme
-                    // On centre les pierres sur le frontal
+                    // Centrer les pierres sur le frontal
                     const startIndex = Math.floor((totalDots - stonesNeeded) / 2);
                     const selectedDots = WHITE_DOTS.slice(startIndex, startIndex + stonesNeeded);
                     
+                    // Calculer la taille des strass en pixels (basée sur les points blancs)
+                    const stoneSizePx = Math.max(8, (DOT_DIAMETER_PCT / 100) * containerWidth);
+                    
+                    // Échelle pour le sprite: on veut que CRYSTAL_DIAMETER devienne stoneSizePx
+                    const scale = stoneSizePx / CRYSTAL_DIAMETER;
+                    
                     return selectedDots.map((dot, index) => {
                       const stone = selectedStones[index % selectedStones.length];
+                      
+                      // Calculer le décalage pour centrer le cristal sur le point
+                      const offsetX = stone.centerX * scale - stoneSizePx / 2;
+                      const offsetY = stone.centerY * scale - stoneSizePx / 2;
                       
                       return (
                         <div 
@@ -222,8 +231,12 @@ function App() {
                           style={{
                             left: `${dot.x}%`,
                             top: `${dot.y}%`,
-                            backgroundColor: stone.color,
-                            boxShadow: `0 1px 3px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.3)`,
+                            width: `${stoneSizePx}px`,
+                            height: `${stoneSizePx}px`,
+                            backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                            backgroundPosition: `-${offsetX}px -${offsetY}px`,
+                            backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
+                            backgroundRepeat: 'no-repeat',
                           }}
                         />
                       );
