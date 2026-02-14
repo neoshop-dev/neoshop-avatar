@@ -83,7 +83,8 @@ const WHITE_DOTS = [
 ];
 
 // Diamètre exact des points blancs en % de la largeur
-const DOT_DIAMETER_PCT = 1.114;
+// Augmenté pour couvrir complètement les points blancs
+const DOT_DIAMETER_PCT = 1.8;
 
 const SIZES = [
   { id: "poney", name: "Poney", stones: 25 },
