@@ -205,9 +205,8 @@ function App() {
                           style={{
                             left: `${dot.x}%`,
                             top: `${dot.y}%`,
-                            backgroundImage: `url(${STRASS_IMAGE_URL})`,
-                            backgroundPosition: `-${stone.centerX * 0.1 - 7}px -${stone.centerY * 0.1 - 7}px`,
-                            backgroundSize: `${SPRITE_WIDTH * 0.1}px ${SPRITE_HEIGHT * 0.1}px`,
+                            backgroundColor: stone.color,
+                            boxShadow: `0 1px 3px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.3)`,
                           }}
                         />
                       );
