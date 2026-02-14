@@ -347,7 +347,7 @@ function App() {
                   <div 
                     className="stone-circle-image"
                     style={{ 
-                      backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                      backgroundImage: `url(${SPRITE_URL})`,
                       backgroundPosition: `-${offsetX}px -${offsetY}px`,
                       backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
                     }}
