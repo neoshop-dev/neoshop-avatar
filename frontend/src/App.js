@@ -82,8 +82,9 @@ const WHITE_DOTS = [
   { x: 74.69, y: 21.24 },
 ];
 
-// Diamètre des points blancs en % de la largeur de l'image (basé sur détection: ~10px sur 900px)
-const DOT_DIAMETER_PCT = 1.1;
+// Diamètre des points blancs en % de la largeur de l'image
+// Augmenté pour que les strass soient visibles et couvrent les points blancs
+const DOT_DIAMETER_PCT = 2.2;
 
 const SIZES = [
   { id: "poney", name: "Poney", stones: 25 },
