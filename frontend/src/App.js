@@ -1,92 +1,95 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "@/App.css";
 
 // Données des pierres disponibles avec images
-// Image 816x1028px, grille 5x4
+// Image sprite 816x1028px contenant les 19 cristaux
+// Chaque cristal a un centre spécifique dans le sprite
 const STONES = [
-  { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f", centerX: 82, centerY: 75 },
-  { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50", centerX: 245, centerY: 75 },
-  { id: "saphir", name: "Saphir", color: "#1a4ecf", centerX: 408, centerY: 75 },
-  { id: "or", name: "Or", color: "#d4af37", centerX: 571, centerY: 75 },
-  { id: "rose", name: "Rose", color: "#f8c8dc", centerX: 734, centerY: 75 },
-  { id: "bordeaux", name: "Bordeaux", color: "#5c1a2e", centerX: 82, centerY: 332 },
-  { id: "argent", name: "Argent", color: "#e8e8e8", centerX: 245, centerY: 332 },
-  { id: "marron", name: "Marron", color: "#8b7355", centerX: 408, centerY: 332 },
-  { id: "fushia", name: "Fushia", color: "#c4196f", centerX: 571, centerY: 332 },
-  { id: "amethyst", name: "Amethyst", color: "#d8a9d8", centerX: 734, centerY: 332 },
-  { id: "vitrail-clair", name: "Vitrail clair", color: "#e8d5f0", centerX: 82, centerY: 589 },
-  { id: "emeraude", name: "Emeraude", color: "#1b8b5a", centerX: 245, centerY: 589 },
-  { id: "saphir-fume", name: "Saphir fumé", color: "#6b8e9f", centerX: 408, centerY: 589 },
-  { id: "bleu-ciel", name: "Bleu ciel", color: "#87ceeb", centerX: 571, centerY: 589 },
-  { id: "noir-diamant", name: "Noir diamant", color: "#4a4a4a", centerX: 734, centerY: 589 },
-  { id: "orange", name: "Orange", color: "#ff8c00", centerX: 82, centerY: 846 },
-  { id: "violet", name: "Violet", color: "#9b7bb8", centerX: 245, centerY: 846 },
-  { id: "bleu-canard", name: "Bleu canard", color: "#2aa198", centerX: 408, centerY: 846 },
-  { id: "noir-intense", name: "Noir intense", color: "#1a1a1a", centerX: 571, centerY: 846 },
+  { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f", centerX: 82, centerY: 75, radius: 75 },
+  { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50", centerX: 245, centerY: 75, radius: 75 },
+  { id: "saphir", name: "Saphir", color: "#1a4ecf", centerX: 408, centerY: 75, radius: 75 },
+  { id: "or", name: "Or", color: "#d4af37", centerX: 571, centerY: 75, radius: 75 },
+  { id: "rose", name: "Rose", color: "#f8c8dc", centerX: 734, centerY: 75, radius: 75 },
+  { id: "bordeaux", name: "Bordeaux", color: "#5c1a2e", centerX: 82, centerY: 332, radius: 75 },
+  { id: "argent", name: "Argent", color: "#e8e8e8", centerX: 245, centerY: 332, radius: 75 },
+  { id: "marron", name: "Marron", color: "#8b7355", centerX: 408, centerY: 332, radius: 75 },
+  { id: "fushia", name: "Fushia", color: "#c4196f", centerX: 571, centerY: 332, radius: 75 },
+  { id: "amethyst", name: "Amethyst", color: "#d8a9d8", centerX: 734, centerY: 332, radius: 75 },
+  { id: "vitrail-clair", name: "Vitrail clair", color: "#e8d5f0", centerX: 82, centerY: 589, radius: 75 },
+  { id: "emeraude", name: "Emeraude", color: "#1b8b5a", centerX: 245, centerY: 589, radius: 75 },
+  { id: "saphir-fume", name: "Saphir fumé", color: "#6b8e9f", centerX: 408, centerY: 589, radius: 75 },
+  { id: "bleu-ciel", name: "Bleu ciel", color: "#87ceeb", centerX: 571, centerY: 589, radius: 75 },
+  { id: "noir-diamant", name: "Noir diamant", color: "#4a4a4a", centerX: 734, centerY: 589, radius: 75 },
+  { id: "orange", name: "Orange", color: "#ff8c00", centerX: 82, centerY: 846, radius: 75 },
+  { id: "violet", name: "Violet", color: "#9b7bb8", centerX: 245, centerY: 846, radius: 75 },
+  { id: "bleu-canard", name: "Bleu canard", color: "#2aa198", centerX: 408, centerY: 846, radius: 75 },
+  { id: "noir-intense", name: "Noir intense", color: "#1a1a1a", centerX: 571, centerY: 846, radius: 75 },
 ];
 
-// URL de l'image des strass (816x1028px)
-const STRASS_IMAGE_URL = "https://customer-assets.emergentagent.com/job_frontal-custom/artifacts/1savtp9b_frontal-clips-incurve-en-cristal-personnalisable-plusieurs-couleurs-4623906.png";
+// URL de l'image des strass (816x1028px) - Sprite sheet avec vraies photos des cristaux
+const STRASS_IMAGE_URL = "https://customer-assets.emergentagent.com/job_44561739-4d87-4109-a5ab-e657888d1a7c/artifacts/tqxj5zsk_frontal-clips-incurve-en-cristal-personnalisable-plusieurs-couleurs-4623906.webp";
 const SPRITE_WIDTH = 816;
 const SPRITE_HEIGHT = 1028;
+const CRYSTAL_DIAMETER = 150; // Diamètre approximatif d'un cristal dans le sprite
 
 // URL du nouveau frontal Wave Style avec points blancs
 const FRONTAL_VIDE_URL = "/browband-wave.png";
 
-// Positions exactes des 44 points blancs sur le frontal Wave Style
-// Coordonnées en pourcentage (%) relatives à l'image
+// Positions exactes des 42 points blancs pour les strass (attaches exclues)
+// Coordonnées en pourcentage (%) relatives à l'image 900x376
 const WHITE_DOTS = [
-  { x: 24.91, y: 62.9 },
-  { x: 26.05, y: 62.89 },
-  { x: 27.22, y: 62.9 },
-  { x: 28.38, y: 62.95 },
-  { x: 29.51, y: 62.98 },
-  { x: 30.6, y: 63.17 },
-  { x: 31.75, y: 63.38 },
-  { x: 32.83, y: 63.76 },
-  { x: 33.88, y: 64.28 },
-  { x: 35.02, y: 64.91 },
-  { x: 36.21, y: 65.55 },
-  { x: 37.25, y: 66.45 },
-  { x: 38.3, y: 67.3 },
-  { x: 39.35, y: 68.26 },
-  { x: 40.38, y: 69.2 },
-  { x: 41.44, y: 70.2 },
-  { x: 42.5, y: 71.16 },
-  { x: 43.5, y: 72.03 },
-  { x: 44.61, y: 72.8 },
-  { x: 45.65, y: 73.6 },
-  { x: 46.75, y: 74.11 },
-  { x: 47.88, y: 74.42 },
-  { x: 49.0, y: 74.35 },
-  { x: 50.12, y: 74.06 },
-  { x: 51.23, y: 73.56 },
-  { x: 52.28, y: 72.75 },
-  { x: 53.37, y: 72.0 },
-  { x: 54.37, y: 71.09 },
-  { x: 55.46, y: 70.14 },
-  { x: 56.5, y: 69.16 },
-  { x: 57.55, y: 68.17 },
-  { x: 58.59, y: 67.25 },
-  { x: 59.66, y: 66.38 },
-  { x: 60.68, y: 65.5 },
-  { x: 61.87, y: 64.83 },
-  { x: 63.0, y: 64.2 },
-  { x: 64.06, y: 63.76 },
-  { x: 65.12, y: 63.33 },
-  { x: 66.26, y: 63.13 },
-  { x: 67.35, y: 62.92 },
-  { x: 68.5, y: 62.83 },
-  { x: 69.65, y: 62.88 },
-  { x: 70.83, y: 62.83 },
-  { x: 72.0, y: 62.83 },
+  { x: 21.71, y: 21.29 },
+  { x: 23.06, y: 21.35 },
+  { x: 24.43, y: 21.41 },
+  { x: 25.78, y: 21.47 },
+  { x: 27.07, y: 21.73 },
+  { x: 28.39, y: 22.00 },
+  { x: 29.67, y: 22.44 },
+  { x: 30.94, y: 23.07 },
+  { x: 32.31, y: 23.78 },
+  { x: 33.68, y: 24.65 },
+  { x: 34.91, y: 25.69 },
+  { x: 36.17, y: 26.78 },
+  { x: 37.39, y: 27.93 },
+  { x: 38.61, y: 29.07 },
+  { x: 39.88, y: 30.30 },
+  { x: 41.16, y: 31.45 },
+  { x: 42.36, y: 32.56 },
+  { x: 43.63, y: 33.50 },
+  { x: 44.91, y: 34.43 },
+  { x: 46.18, y: 35.09 },
+  { x: 47.51, y: 35.44 },
+  { x: 48.83, y: 35.37 },
+  { x: 50.17, y: 35.03 },
+  { x: 51.47, y: 34.34 },
+  { x: 52.72, y: 33.43 },
+  { x: 54.01, y: 32.50 },
+  { x: 55.18, y: 31.38 },
+  { x: 56.47, y: 30.25 },
+  { x: 57.74, y: 29.00 },
+  { x: 58.95, y: 27.87 },
+  { x: 60.19, y: 26.70 },
+  { x: 61.45, y: 25.63 },
+  { x: 62.68, y: 24.60 },
+  { x: 64.05, y: 23.68 },
+  { x: 65.43, y: 22.99 },
+  { x: 66.69, y: 22.37 },
+  { x: 67.97, y: 21.90 },
+  { x: 69.28, y: 21.61 },
+  { x: 70.57, y: 21.41 },
+  { x: 71.93, y: 21.30 },
+  { x: 73.29, y: 21.29 },
+  { x: 74.69, y: 21.24 },
 ];
+
+// Diamètre des points blancs en % de la largeur de l'image (basé sur détection: ~10px sur 900px)
+const DOT_DIAMETER_PCT = 1.1;
 
 const SIZES = [
   { id: "poney", name: "Poney", stones: 25 },
   { id: "cob", name: "Cob", stones: 30 },
   { id: "full", name: "Full", stones: 35 },
-  { id: "xl", name: "XL", stones: 35 },
+  { id: "xl", name: "XL", stones: 42 },  // XL utilise tous les 42 emplacements
 ];
 
 const PRICE = 39;
@@ -96,6 +99,20 @@ function App() {
   const [selectedSize, setSelectedSize] = useState(SIZES[2]); // Full par défaut
   const [showExportModal, setShowExportModal] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const imageContainerRef = useRef(null);
+
+  // Mesurer la largeur du conteneur pour calculer la taille des strass
+  useEffect(() => {
+    const updateWidth = () => {
+      if (imageContainerRef.current) {
+        setContainerWidth(imageContainerRef.current.offsetWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   // Ajouter une pierre à la sélection
   const addStone = (stone) => {
