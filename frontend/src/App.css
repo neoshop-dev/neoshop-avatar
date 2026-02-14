@@ -133,34 +133,13 @@ section h2 .hint {
   pointer-events: none;
 }
 
-/* Strass responsifs avec taille basée sur la largeur du conteneur */
+/* Strass avec vraies images des cristaux */
 .overlay-strass {
   position: absolute;
-  width: 4%;
-  height: 0;
-  padding-bottom: 4%; /* Maintient le ratio 1:1 */
   border-radius: 50%;
   transform: translate(-50%, -50%);
   background-repeat: no-repeat;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  background-size: cover;
-  background-position: center;
-}
-
-/* Tailles pour tablettes */
-@media (min-width: 600px) {
-  .overlay-strass {
-    width: 3%;
-    padding-bottom: 3%;
-  }
-}
-
-/* Tailles pour desktop */
-@media (min-width: 900px) {
-  .overlay-strass {
-    width: 2.5%;
-    padding-bottom: 2.5%;
-  }
+  /* Pas de taille fixe - définie dynamiquement en JS */
 }
 
 .overlay-message {
