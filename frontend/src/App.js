@@ -188,40 +188,44 @@ function App() {
         <section className="preview-section" data-testid="preview-section">
           <h2>Prévisualisation</h2>
           
-          {/* Frontal avec image réelle vide et strass superposés */}
+          {/* Frontal avec image réelle et strass superposés */}
           <div className="frontal-preview" data-testid="frontal-preview">
             <div className="frontal-image-container" ref={imageContainerRef}>
-              {/* Image du frontal vide */}
+              {/* Image du frontal */}
               <img 
-                src={FRONTAL_VIDE_URL}
+                src={FRONTAL_URL}
                 alt="Frontal personnalisable"
                 className="frontal-real-image"
               />
               
-              {/* Strass superposés sur les points blancs - vraies images des cristaux */}
+              {/* Cristaux superposés - positionnement précis sur les points blancs */}
               {selectedStones.length > 0 && containerWidth > 0 && (
                 <div className="stones-overlay">
                   {(() => {
-                    // Calculer quels points blancs utiliser en fonction de la taille
-                    const totalDots = WHITE_DOTS.length; // 42 points disponibles
+                    const totalDots = WHITE_DOTS.length;
                     const stonesNeeded = Math.min(selectedSize.stones, totalDots);
                     
                     // Centrer les pierres sur le frontal
                     const startIndex = Math.floor((totalDots - stonesNeeded) / 2);
                     const selectedDots = WHITE_DOTS.slice(startIndex, startIndex + stonesNeeded);
                     
-                    // Calculer la taille des strass en pixels (basée sur les points blancs)
-                    const stoneSizePx = Math.max(8, (DOT_DIAMETER_PCT / 100) * containerWidth);
+                    // Taille du cristal = exactement la taille du point blanc
+                    const stoneSizePx = (DOT_DIAMETER_PCT / 100) * containerWidth;
                     
-                    // Échelle pour le sprite: on veut que CRYSTAL_DIAMETER devienne stoneSizePx
-                    const scale = stoneSizePx / CRYSTAL_DIAMETER;
+                    // Échelle pour extraire le cristal du sprite
+                    // Le cristal dans le sprite fait ~140px, on veut qu'il fasse stoneSizePx
+                    const scale = stoneSizePx / CRYSTAL_SIZE;
                     
                     return selectedDots.map((dot, index) => {
                       const stone = selectedStones[index % selectedStones.length];
                       
-                      // Calculer le décalage pour centrer le cristal sur le point
-                      const offsetX = stone.centerX * scale - stoneSizePx / 2;
-                      const offsetY = stone.centerY * scale - stoneSizePx / 2;
+                      // Position du cristal dans le sprite (centre de la cellule)
+                      const cellCenterX = (stone.col + 0.5) * CELL_WIDTH;
+                      const cellCenterY = (stone.row + 0.5) * CELL_HEIGHT;
+                      
+                      // Offset pour centrer le cristal dans le conteneur
+                      const offsetX = (cellCenterX - CRYSTAL_SIZE / 2) * scale;
+                      const offsetY = (cellCenterY - CRYSTAL_SIZE / 2) * scale;
                       
                       return (
                         <div 
@@ -233,10 +237,9 @@ function App() {
                             top: `${dot.y}%`,
                             width: `${stoneSizePx}px`,
                             height: `${stoneSizePx}px`,
-                            backgroundImage: `url(${STRASS_IMAGE_URL})`,
+                            backgroundImage: `url(${SPRITE_URL})`,
                             backgroundPosition: `-${offsetX}px -${offsetY}px`,
                             backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
-                            backgroundRepeat: 'no-repeat',
                           }}
                         />
                       );
