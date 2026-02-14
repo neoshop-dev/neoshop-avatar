@@ -3,7 +3,6 @@ import "@/App.css";
 
 // Données des pierres disponibles avec images
 // Image 816x1028px, grille 5x4
-// Les rangées sont espacées d'environ 257px, les gemmes sont centrées ~95px depuis le haut de chaque cellule
 const STONES = [
   { id: "rouge-rubis", name: "Rouge rubis", color: "#c91b4f", centerX: 82, centerY: 75 },
   { id: "bleu-marine", name: "Bleu marine", color: "#2c3e50", centerX: 245, centerY: 75 },
@@ -31,8 +30,57 @@ const STRASS_IMAGE_URL = "https://customer-assets.emergentagent.com/job_frontal-
 const SPRITE_WIDTH = 816;
 const SPRITE_HEIGHT = 1028;
 
-// URL du frontal vide
-const FRONTAL_VIDE_URL = "https://customer-assets.emergentagent.com/job_frontal-custom/artifacts/fhx4ipga_1770657882636.png";
+// URL du nouveau frontal Wave Style avec points blancs
+const FRONTAL_VIDE_URL = "/browband-wave.png";
+
+// Positions exactes des 44 points blancs sur le frontal Wave Style
+// Coordonnées en pourcentage (%) relatives à l'image
+const WHITE_DOTS = [
+  { x: 24.91, y: 62.9 },
+  { x: 26.05, y: 62.89 },
+  { x: 27.22, y: 62.9 },
+  { x: 28.38, y: 62.95 },
+  { x: 29.51, y: 62.98 },
+  { x: 30.6, y: 63.17 },
+  { x: 31.75, y: 63.38 },
+  { x: 32.83, y: 63.76 },
+  { x: 33.88, y: 64.28 },
+  { x: 35.02, y: 64.91 },
+  { x: 36.21, y: 65.55 },
+  { x: 37.25, y: 66.45 },
+  { x: 38.3, y: 67.3 },
+  { x: 39.35, y: 68.26 },
+  { x: 40.38, y: 69.2 },
+  { x: 41.44, y: 70.2 },
+  { x: 42.5, y: 71.16 },
+  { x: 43.5, y: 72.03 },
+  { x: 44.61, y: 72.8 },
+  { x: 45.65, y: 73.6 },
+  { x: 46.75, y: 74.11 },
+  { x: 47.88, y: 74.42 },
+  { x: 49.0, y: 74.35 },
+  { x: 50.12, y: 74.06 },
+  { x: 51.23, y: 73.56 },
+  { x: 52.28, y: 72.75 },
+  { x: 53.37, y: 72.0 },
+  { x: 54.37, y: 71.09 },
+  { x: 55.46, y: 70.14 },
+  { x: 56.5, y: 69.16 },
+  { x: 57.55, y: 68.17 },
+  { x: 58.59, y: 67.25 },
+  { x: 59.66, y: 66.38 },
+  { x: 60.68, y: 65.5 },
+  { x: 61.87, y: 64.83 },
+  { x: 63.0, y: 64.2 },
+  { x: 64.06, y: 63.76 },
+  { x: 65.12, y: 63.33 },
+  { x: 66.26, y: 63.13 },
+  { x: 67.35, y: 62.92 },
+  { x: 68.5, y: 62.83 },
+  { x: 69.65, y: 62.88 },
+  { x: 70.83, y: 62.83 },
+  { x: 72.0, y: 62.83 },
+];
 
 const SIZES = [
   { id: "poney", name: "Poney", stones: 25 },
