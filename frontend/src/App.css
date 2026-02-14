@@ -154,6 +154,20 @@ section h2 .hint {
 
 @media (min-width: 900px) {
   .overlay-strass {
+
+.overlay-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
     width: 2.2%;
     padding-bottom: 2.2%;
   }
