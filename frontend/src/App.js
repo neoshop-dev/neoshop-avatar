@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import "@/App.css";
 
 // Données des pierres disponibles avec images
