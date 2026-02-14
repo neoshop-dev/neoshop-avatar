@@ -109,16 +109,6 @@ function App() {
     setSelectedStones(selectedStones.filter((_, i) => i !== index));
   };
 
-  // Générer le pattern de pierres pour le frontal
-  const generatePattern = useCallback(() => {
-    if (selectedStones.length === 0) return [];
-    const pattern = [];
-    for (let i = 0; i < selectedSize.stones; i++) {
-      pattern.push(selectedStones[i % selectedStones.length]);
-    }
-    return pattern;
-  }, [selectedStones, selectedSize]);
-
   // Générer le code HTML pour Shopify
   const generateShopifyCode = () => {
     const stoneNames = selectedStones.map(s => s.name).join(" + ");
