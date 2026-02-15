@@ -57,9 +57,8 @@ const STONE_POSITIONS = [
 ];
 
 // Taille des strass en pixels sur l'image originale
-// Calibré pour correspondre aux points verts sans chevauchement
-// Distance min entre points: ~42px, donc taille max = 42px
-const STONE_SIZE = 42;
+// Calibré pour correspondre aux points verts - entre-deux optimal
+const STONE_SIZE = 50;
 
 const PRICE = 39;
 
@@ -226,7 +225,7 @@ function App() {
       <header className="header">
         <div className="header-content">
           <h1 data-testid="main-title">Créez Votre Frontal</h1>
-          <p className="subtitle">Personnalisez les strass de votre frontal équestre</p>
+          <p className="subtitle">Personnalisez les strass de votre frontal</p>
         </div>
       </header>
 
@@ -344,19 +343,6 @@ function App() {
             ))}
           </div>
 
-          {/* Explication du pattern */}
-          <div className="pattern-explanation">
-            <p>
-              <strong>Comment ça marche ?</strong> Les 33 strass seront remplis en
-              répétant votre sélection dans l'ordre choisi.
-            </p>
-            <ul>
-              <li>1 style → même strass répété 33 fois</li>
-              <li>2 styles → alternance A-B-A-B...</li>
-              <li>3 styles → séquence A-B-C-A-B-C...</li>
-              <li>4 styles → séquence A-B-C-D-A-B-C-D...</li>
-            </ul>
-          </div>
         </section>
 
         {/* Boutons d'action */}
