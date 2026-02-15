@@ -90,7 +90,8 @@ function App() {
   const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     const displayCanvas = displayCanvasRef.current;
-    if (!canvas || !displayCanvas || !baseImage) return;
+    const container = containerRef.current;
+    if (!canvas || !displayCanvas || !baseImage || !container) return;
 
     const ctx = canvas.getContext("2d");
     const displayCtx = displayCanvas.getContext("2d");
@@ -119,15 +120,35 @@ function App() {
       });
     }
 
-    // Copier vers le canvas d'affichage (redimensionné)
-    const container = containerRef.current;
-    if (container) {
-      const containerWidth = container.offsetWidth;
-      const scale = containerWidth / BASE_WIDTH;
-      displayCanvas.width = containerWidth;
-      displayCanvas.height = BASE_HEIGHT * scale;
-      displayCtx.drawImage(canvas, 0, 0, displayCanvas.width, displayCanvas.height);
-    }
+    // Canvas d'affichage avec support Retina/haute densité
+    const containerWidth = container.offsetWidth;
+    const scale = containerWidth / BASE_WIDTH;
+    const displayWidth = containerWidth;
+    const displayHeight = BASE_HEIGHT * scale;
+    
+    // Densité de pixels de l'écran (2 pour Retina, 3 pour certains mobiles)
+    const dpr = window.devicePixelRatio || 1;
+    
+    // Définir la taille réelle du canvas (pixels physiques)
+    displayCanvas.width = displayWidth * dpr;
+    displayCanvas.height = displayHeight * dpr;
+    
+    // Définir la taille CSS (pixels logiques)
+    displayCanvas.style.width = displayWidth + 'px';
+    displayCanvas.style.height = displayHeight + 'px';
+    
+    // Mettre à l'échelle le contexte pour la haute résolution
+    displayCtx.scale(dpr, dpr);
+    
+    // Activer le lissage de haute qualité
+    displayCtx.imageSmoothingEnabled = true;
+    displayCtx.imageSmoothingQuality = 'high';
+    
+    // Dessiner l'image source sur le canvas d'affichage
+    displayCtx.drawImage(canvas, 0, 0, displayWidth, displayHeight);
+    
+    // Reset le scale pour le prochain rendu
+    displayCtx.setTransform(1, 0, 0, 1, 0, 0);
   }, [baseImage, selectedStyles, loadedImages]);
 
   // Redessiner quand les dépendances changent
