@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import "@/App.css";
 
-// Les 9 styles de strass disponibles
+// Les 14 styles de strass disponibles
 const STONE_STYLES = [
   { id: "marron", name: "Marron", src: "/stone-marron.png" },
   { id: "saphir", name: "Saphir", src: "/stone-saphir.png" },
@@ -12,6 +12,11 @@ const STONE_STYLES = [
   { id: "argent", name: "Argent", src: "/style7.png" },
   { id: "turquoise", name: "Turquoise", src: "/style8.png" },
   { id: "bordeaux", name: "Bordeaux", src: "/style9.png" },
+  { id: "orange", name: "Orange", src: "/style10.png" },
+  { id: "amethyst", name: "Amethyst", src: "/style11.png" },
+  { id: "or", name: "Or", src: "/style12.png" },
+  { id: "bleu-canard", name: "Bleu Canard", src: "/style13.png" },
+  { id: "vitrail-clair", name: "Vitrail Clair", src: "/style14.png" },
 ];
 
 // Image de base du frontal (sans les points verts)
