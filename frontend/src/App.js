@@ -1,12 +1,17 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import "@/App.css";
 
-// Les 4 styles de strass disponibles
+// Les 9 styles de strass disponibles
 const STONE_STYLES = [
   { id: "marron", name: "Marron", src: "/stone-marron.png" },
   { id: "saphir", name: "Saphir", src: "/stone-saphir.png" },
   { id: "noir-diamant", name: "Noir Diamant", src: "/stone-noir-diamant.png" },
   { id: "fushia", name: "Fushia", src: "/stone-fushia.png" },
+  { id: "bleu-marine", name: "Bleu Marine", src: "/style5.png" },
+  { id: "rose", name: "Rose", src: "/style6.png" },
+  { id: "argent", name: "Argent", src: "/style7.png" },
+  { id: "turquoise", name: "Turquoise", src: "/style8.png" },
+  { id: "bordeaux", name: "Bordeaux", src: "/style9.png" },
 ];
 
 // Image de base du frontal (sans les points verts)
@@ -52,7 +57,8 @@ const STONE_POSITIONS = [
 ];
 
 // Taille des strass en pixels sur l'image originale
-const STONE_SIZE = 75;
+// Calibré pour correspondre aux points verts sans chevauchement
+const STONE_SIZE = 55;
 
 const PRICE = 39;
 
