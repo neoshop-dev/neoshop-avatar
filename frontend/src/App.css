@@ -94,15 +94,16 @@ section h2 .hint {
 }
 
 .frontal-preview {
-  background-color: var(--color-darker);
+  background-color: transparent;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .canvas-container {
   position: relative;
   width: 100%;
+  cursor: pointer;
 }
 
 .preview-canvas {
@@ -115,6 +116,18 @@ section h2 .hint {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translateZ(0);
+}
+
+.zoom-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  pointer-events: none;
 }
 
 .overlay-message {
