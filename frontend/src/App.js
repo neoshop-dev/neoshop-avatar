@@ -61,27 +61,42 @@ function App() {
   const [loadedImages, setLoadedImages] = useState({});
   const [baseImage, setBaseImage] = useState(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const canvasRef = useRef(null);
   const displayCanvasRef = useRef(null);
   const containerRef = useRef(null);
 
   // Charger les images au démarrage
   useEffect(() => {
+    let loadedCount = 0;
+    const totalImages = STONE_STYLES.length + 1; // +1 pour l'image de base
+    
+    const checkAllLoaded = () => {
+      loadedCount++;
+      if (loadedCount >= totalImages) {
+        setIsLoading(false);
+      }
+    };
+
     // Charger l'image de base
     const base = new Image();
     base.crossOrigin = "anonymous";
-    base.onload = () => setBaseImage(base);
+    base.onload = () => {
+      setBaseImage(base);
+      checkAllLoaded();
+    };
+    base.onerror = checkAllLoaded;
     base.src = BASE_IMAGE_URL;
 
     // Charger les images des strass
-    const loaded = {};
     STONE_STYLES.forEach((style) => {
       const img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = () => {
-        loaded[style.id] = img;
         setLoadedImages((prev) => ({ ...prev, [style.id]: img }));
+        checkAllLoaded();
       };
+      img.onerror = checkAllLoaded;
       img.src = style.src;
     });
   }, []);
