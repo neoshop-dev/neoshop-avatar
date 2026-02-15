@@ -242,7 +242,12 @@ function App() {
                 className="preview-canvas"
                 data-testid="preview-canvas"
               />
-              {selectedStyles.length === 0 && (
+              {isLoading && (
+                <div className="overlay-message loading">
+                  Chargement des images...
+                </div>
+              )}
+              {!isLoading && selectedStyles.length === 0 && (
                 <div className="overlay-message">
                   Sélectionnez des styles de strass ci-dessous
                 </div>
