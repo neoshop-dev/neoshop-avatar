@@ -41,23 +41,25 @@ const CRYSTAL_SIZE_IN_CELL = 140;           // Taille du cristal visible dans la
 const FRONTAL_WIDTH = 2662;
 const FRONTAL_HEIGHT = 567;
 
+// Paramètres de la courbe wave basés sur l'analyse de l'image exemple
+// La courbe descend au centre et remonte aux extrémités
+const CURVE_START_X = 13;   // % depuis la gauche
+const CURVE_END_X = 89;     // % depuis la gauche
+const CURVE_CENTER_Y = 34;  // Centre de la vague en %
+const CURVE_AMPLITUDE = 30; // Amplitude de la vague en %
+
 // Générer les positions des cristaux sur le frontal en suivant la courbe wave
-// Basé sur l'analyse: ~112 emplacements, de 10% à 90% de la largeur
 function generateCrystalPositions(count) {
   const positions = [];
-  const startX = 10;  // % depuis la gauche
-  const endX = 90;    // % depuis la gauche
-  const centerY = 50; // Centre vertical en %
-  const amplitude = 18; // Amplitude de la vague en %
+  const spanX = CURVE_END_X - CURVE_START_X;
   
   for (let i = 0; i < count; i++) {
     const progress = i / (count - 1);
-    const x = startX + progress * (endX - startX);
+    const x = CURVE_START_X + progress * spanX;
     
-    // Calcul de la courbe wave (sinusoïdale modifiée pour avoir le creux au centre)
-    // La courbe descend au centre et remonte aux extrémités
+    // Courbe sinusoïdale: descend au centre (y augmente), remonte aux bords
     const wavePhase = Math.PI * progress;
-    const y = centerY + amplitude * Math.sin(wavePhase);
+    const y = CURVE_CENTER_Y + CURVE_AMPLITUDE * Math.sin(wavePhase);
     
     positions.push({ x, y });
   }
