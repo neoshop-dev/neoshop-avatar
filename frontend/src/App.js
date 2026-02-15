@@ -41,33 +41,109 @@ const CRYSTAL_SIZE_IN_CELL = 140;           // Taille du cristal visible dans la
 const FRONTAL_WIDTH = 2662;
 const FRONTAL_HEIGHT = 567;
 
-// Paramètres de la courbe wave basés sur l'analyse de l'image exemple
-// La courbe descend au centre et remonte aux extrémités
-const CURVE_START_X = 13;   // % depuis la gauche
-const CURVE_END_X = 89;     // % depuis la gauche
-const CURVE_CENTER_Y = 34;  // Centre de la vague en %
-const CURVE_AMPLITUDE = 30; // Amplitude de la vague en %
-
-// Générer les positions des cristaux sur le frontal en suivant la courbe wave
-function generateCrystalPositions(count) {
-  const positions = [];
-  const spanX = CURVE_END_X - CURVE_START_X;
-  
-  for (let i = 0; i < count; i++) {
-    const progress = i / (count - 1);
-    const x = CURVE_START_X + progress * spanX;
-    
-    // Courbe sinusoïdale: descend au centre (y augmente), remonte aux bords
-    const wavePhase = Math.PI * progress;
-    const y = CURVE_CENTER_Y + CURVE_AMPLITUDE * Math.sin(wavePhase);
-    
-    positions.push({ x, y });
-  }
-  return positions;
-}
-
-// Positions précalculées pour différentes tailles
-const ALL_POSITIONS = generateCrystalPositions(112);
+// Positions EXACTES des trous sur le frontal (détectées depuis l'image)
+// Chaque position correspond au centre d'un trou noir sur le frontal
+const ALL_POSITIONS = [
+  { x: 13.00, y: 30.51 },
+  { x: 13.77, y: 30.80 },
+  { x: 14.53, y: 30.70 },
+  { x: 15.30, y: 30.97 },
+  { x: 16.06, y: 31.00 },
+  { x: 16.83, y: 30.90 },
+  { x: 17.59, y: 31.48 },
+  { x: 18.36, y: 31.77 },
+  { x: 19.12, y: 32.27 },
+  { x: 19.89, y: 33.16 },
+  { x: 20.65, y: 33.18 },
+  { x: 21.42, y: 33.83 },
+  { x: 22.18, y: 34.65 },
+  { x: 22.95, y: 35.27 },
+  { x: 23.71, y: 36.08 },
+  { x: 24.48, y: 36.89 },
+  { x: 25.24, y: 37.98 },
+  { x: 26.01, y: 38.91 },
+  { x: 26.78, y: 40.00 },
+  { x: 27.54, y: 40.96 },
+  { x: 28.31, y: 41.95 },
+  { x: 29.07, y: 43.42 },
+  { x: 29.84, y: 45.11 },
+  { x: 30.60, y: 46.29 },
+  { x: 31.37, y: 46.89 },
+  { x: 32.13, y: 48.61 },
+  { x: 32.90, y: 49.54 },
+  { x: 33.66, y: 51.33 },
+  { x: 34.43, y: 52.58 },
+  { x: 35.19, y: 53.86 },
+  { x: 35.96, y: 55.03 },
+  { x: 36.72, y: 56.31 },
+  { x: 37.49, y: 57.54 },
+  { x: 38.26, y: 58.68 },
+  { x: 39.02, y: 59.89 },
+  { x: 39.79, y: 60.85 },
+  { x: 40.55, y: 61.89 },
+  { x: 41.32, y: 62.56 },
+  { x: 42.08, y: 63.87 },
+  { x: 42.85, y: 64.51 },
+  { x: 43.61, y: 65.43 },
+  { x: 44.38, y: 66.23 },
+  { x: 45.14, y: 66.50 },
+  { x: 45.91, y: 67.32 },
+  { x: 46.67, y: 67.63 },
+  { x: 47.44, y: 67.70 },
+  { x: 48.20, y: 67.86 },
+  { x: 48.97, y: 67.72 },
+  { x: 49.73, y: 68.49 },
+  { x: 50.50, y: 68.48 },
+  { x: 51.27, y: 67.96 },
+  { x: 52.03, y: 68.45 },
+  { x: 52.80, y: 67.83 },
+  { x: 53.56, y: 67.01 },
+  { x: 54.33, y: 66.50 },
+  { x: 55.09, y: 66.67 },
+  { x: 55.86, y: 65.89 },
+  { x: 56.62, y: 64.97 },
+  { x: 57.39, y: 64.46 },
+  { x: 58.15, y: 63.55 },
+  { x: 58.92, y: 62.64 },
+  { x: 59.68, y: 61.03 },
+  { x: 60.45, y: 60.11 },
+  { x: 61.21, y: 59.25 },
+  { x: 61.98, y: 58.13 },
+  { x: 62.74, y: 56.79 },
+  { x: 63.51, y: 55.11 },
+  { x: 64.28, y: 53.97 },
+  { x: 65.04, y: 53.08 },
+  { x: 65.81, y: 52.23 },
+  { x: 66.57, y: 51.00 },
+  { x: 67.34, y: 49.82 },
+  { x: 68.10, y: 48.84 },
+  { x: 68.87, y: 47.31 },
+  { x: 69.63, y: 46.12 },
+  { x: 70.40, y: 45.60 },
+  { x: 71.16, y: 44.06 },
+  { x: 71.93, y: 43.53 },
+  { x: 72.69, y: 42.43 },
+  { x: 73.46, y: 42.16 },
+  { x: 74.22, y: 40.64 },
+  { x: 74.99, y: 40.18 },
+  { x: 75.76, y: 40.34 },
+  { x: 76.52, y: 39.72 },
+  { x: 77.29, y: 39.23 },
+  { x: 78.05, y: 38.68 },
+  { x: 78.82, y: 38.87 },
+  { x: 79.58, y: 38.29 },
+  { x: 80.35, y: 37.78 },
+  { x: 81.11, y: 37.99 },
+  { x: 81.88, y: 37.78 },
+  { x: 82.64, y: 37.84 },
+  { x: 83.41, y: 37.82 },
+  { x: 84.17, y: 38.17 },
+  { x: 84.94, y: 37.04 },
+  { x: 85.70, y: 37.35 },
+  { x: 86.47, y: 37.41 },
+  { x: 87.23, y: 37.23 },
+  { x: 88.00, y: 37.32 },
+];
 
 const SIZES = [
   { id: "poney", name: "Poney", stones: 70 },
