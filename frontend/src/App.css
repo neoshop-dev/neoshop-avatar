@@ -110,11 +110,11 @@ section h2 .hint {
 .frontal-image-container {
   position: relative;
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
-  background: #f5f3ef;
+  background: #000;
 }
 
 .frontal-real-image {
