@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import "@/App.css";
 
-// Les 14 styles de strass disponibles
+// Les 19 styles de strass disponibles
 const STONE_STYLES = [
   { id: "marron", name: "Marron", src: "/stone-marron.png" },
   { id: "saphir", name: "Saphir", src: "/stone-saphir.png" },
@@ -17,6 +17,11 @@ const STONE_STYLES = [
   { id: "or", name: "Or", src: "/style12.png" },
   { id: "bleu-canard", name: "Bleu Canard", src: "/style13.png" },
   { id: "vitrail-clair", name: "Vitrail Clair", src: "/style14.png" },
+  { id: "saphir-fume", name: "Saphir Fumé", src: "/style15.png" },
+  { id: "violet", name: "Violet", src: "/style16.png" },
+  { id: "emeraude", name: "Emeraude", src: "/style17.png" },
+  { id: "noir-intense", name: "Noir Intense", src: "/style18.png" },
+  { id: "rouge-rubis", name: "Rouge Rubis", src: "/style19.png" },
 ];
 
 // Image de base du frontal (sans les points verts)
@@ -62,8 +67,8 @@ const STONE_POSITIONS = [
 ];
 
 // Taille des strass en pixels sur l'image originale
-// Calibré pour correspondre aux points verts - entre-deux optimal
-const STONE_SIZE = 50;
+// Calibré pour que les cristaux se frôlent légèrement
+const STONE_SIZE = 52;
 
 const PRICE = 39;
 
@@ -190,11 +195,9 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, [drawCanvas]);
 
-  // Ajouter un style à la sélection (max 4, permet les doublons)
+  // Ajouter un style à la sélection (illimité)
   const addStyle = (style) => {
-    if (selectedStyles.length < 4) {
-      setSelectedStyles([...selectedStyles, style]);
-    }
+    setSelectedStyles([...selectedStyles, style]);
   };
 
   // Retirer un style de la sélection
