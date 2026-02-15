@@ -9,8 +9,8 @@ const STONE_STYLES = [
   { id: "fushia", name: "Fushia", src: "/stone-fushia.png" },
 ];
 
-// Image de base du frontal
-const BASE_IMAGE_URL = "/base-frontal.png";
+// Image de base du frontal (sans les points verts)
+const BASE_IMAGE_URL = "/base-frontal-clean.png";
 const BASE_WIDTH = 2816;
 const BASE_HEIGHT = 557;
 
