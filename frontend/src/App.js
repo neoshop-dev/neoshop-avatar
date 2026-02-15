@@ -93,12 +93,16 @@ function App() {
     const container = containerRef.current;
     if (!canvas || !displayCanvas || !baseImage || !container) return;
 
-    const ctx = canvas.getContext("2d");
-    const displayCtx = displayCanvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: false });
+    const displayCtx = displayCanvas.getContext("2d", { alpha: false });
 
     // Canvas haute résolution pour l'export
     canvas.width = BASE_WIDTH;
     canvas.height = BASE_HEIGHT;
+    
+    // Activer le lissage haute qualité
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
     // Dessiner l'image de base
     ctx.drawImage(baseImage, 0, 0, BASE_WIDTH, BASE_HEIGHT);
@@ -106,13 +110,11 @@ function App() {
     // Si des styles sont sélectionnés, dessiner les 33 strass
     if (selectedStyles.length > 0) {
       STONE_POSITIONS.forEach((pos, index) => {
-        // Pattern répétitif: slot i utilise selectedStyles[i % selectedStyles.length]
         const styleIndex = index % selectedStyles.length;
         const style = selectedStyles[styleIndex];
         const stoneImg = loadedImages[style.id];
 
         if (stoneImg) {
-          // Dessiner le strass centré sur la position
           const drawX = pos.x - STONE_SIZE / 2;
           const drawY = pos.y - STONE_SIZE / 2;
           ctx.drawImage(stoneImg, drawX, drawY, STONE_SIZE, STONE_SIZE);
@@ -120,35 +122,33 @@ function App() {
       });
     }
 
-    // Canvas d'affichage avec support Retina/haute densité
+    // Canvas d'affichage avec support haute densité (Retina)
     const containerWidth = container.offsetWidth;
     const scale = containerWidth / BASE_WIDTH;
     const displayWidth = containerWidth;
     const displayHeight = BASE_HEIGHT * scale;
     
-    // Densité de pixels de l'écran (2 pour Retina, 3 pour certains mobiles)
-    const dpr = window.devicePixelRatio || 1;
+    // Utiliser une densité minimum de 2 pour assurer la qualité
+    const dpr = Math.max(window.devicePixelRatio || 1, 2);
     
     // Définir la taille réelle du canvas (pixels physiques)
-    displayCanvas.width = displayWidth * dpr;
-    displayCanvas.height = displayHeight * dpr;
+    displayCanvas.width = Math.round(displayWidth * dpr);
+    displayCanvas.height = Math.round(displayHeight * dpr);
     
     // Définir la taille CSS (pixels logiques)
     displayCanvas.style.width = displayWidth + 'px';
     displayCanvas.style.height = displayHeight + 'px';
     
-    // Mettre à l'échelle le contexte pour la haute résolution
-    displayCtx.scale(dpr, dpr);
-    
-    // Activer le lissage de haute qualité
+    // Activer le lissage haute qualité pour l'affichage
     displayCtx.imageSmoothingEnabled = true;
     displayCtx.imageSmoothingQuality = 'high';
     
-    // Dessiner l'image source sur le canvas d'affichage
-    displayCtx.drawImage(canvas, 0, 0, displayWidth, displayHeight);
-    
-    // Reset le scale pour le prochain rendu
-    displayCtx.setTransform(1, 0, 0, 1, 0, 0);
+    // Dessiner l'image source sur le canvas d'affichage avec scaling
+    displayCtx.drawImage(
+      canvas, 
+      0, 0, BASE_WIDTH, BASE_HEIGHT,
+      0, 0, displayCanvas.width, displayCanvas.height
+    );
   }, [baseImage, selectedStyles, loadedImages]);
 
   // Redessiner quand les dépendances changent
