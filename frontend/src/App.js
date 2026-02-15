@@ -264,27 +264,9 @@ function App() {
               )}
               {!isLoading && selectedStyles.length > 0 && (
                 <div className="zoom-hint">
-                  👆 Cliquez pour zoomer
+                  Cliquez pour zoomer
                 </div>
               )}
-            </div>
-          </div>
-
-          {/* Infos sélection */}
-          <div className="selection-info">
-            <div className="info-item">
-              <span className="label">Strass:</span>
-              <span className="value" data-testid="stone-count">33 pierres</span>
-            </div>
-            <div className="info-item">
-              <span className="label">Pattern:</span>
-              <span className="value" data-testid="pattern-desc">
-                {selectedStyles.length}/4 styles
-              </span>
-            </div>
-            <div className="info-item price">
-              <span className="label">Prix:</span>
-              <span className="value" data-testid="price">{PRICE},00 €</span>
             </div>
           </div>
         </section>
@@ -292,8 +274,8 @@ function App() {
         {/* Section Sélection des styles */}
         <section className="stones-selection-section" data-testid="stones-selection">
           <h2>
-            1. Sélectionnez vos styles{" "}
-            <span className="hint">(1 à 4 styles, dans l'ordre souhaité)</span>
+            Sélectionnez vos styles{" "}
+            <span className="hint">(dans l'ordre souhaité)</span>
           </h2>
 
           {/* Styles sélectionnés */}
