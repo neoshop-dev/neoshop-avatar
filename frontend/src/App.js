@@ -52,7 +52,7 @@ const STONE_POSITIONS = [
 ];
 
 // Taille des strass en pixels sur l'image originale
-const STONE_SIZE = 60;
+const STONE_SIZE = 75;
 
 const PRICE = 39;
 
