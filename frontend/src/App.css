@@ -110,9 +110,11 @@ section h2 .hint {
   height: auto;
   display: block;
   border-radius: 4px;
-  /* Assurer un rendu net sur tous les écrans */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  /* Rendu haute qualité sur tous les écrans */
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .overlay-message {
