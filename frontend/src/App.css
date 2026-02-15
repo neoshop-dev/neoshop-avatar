@@ -126,6 +126,15 @@ section h2 .hint {
   font-size: 1rem;
   text-align: center;
   pointer-events: none;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
+.overlay-message.loading {
+  background: rgba(201, 162, 39, 0.9);
+  color: white;
+  font-weight: 600;
 }
 
 /* Selection Info */
