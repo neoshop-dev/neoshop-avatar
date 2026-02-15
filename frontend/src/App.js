@@ -146,10 +146,10 @@ const ALL_POSITIONS = [
 ];
 
 const SIZES = [
-  { id: "poney", name: "Poney", stones: 70 },
-  { id: "cob", name: "Cob", stones: 85 },
-  { id: "full", name: "Full", stones: 99 },
-  { id: "xl", name: "XL", stones: 112 },
+  { id: "poney", name: "Poney", stones: 60 },
+  { id: "cob", name: "Cob", stones: 75 },
+  { id: "full", name: "Full", stones: 85 },
+  { id: "xl", name: "XL", stones: 99 },
 ];
 
 // Diamètre des cristaux en % de la largeur du frontal
