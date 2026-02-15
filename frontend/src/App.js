@@ -267,9 +267,11 @@ function App() {
               <div className="selected-stones-list">
                 {selectedStones.map((stone, index) => {
                   const displaySize = 36;
-                  const scale = displaySize / 140;
-                  const offsetX = stone.centerX * scale - displaySize/2;
-                  const offsetY = stone.centerY * scale - displaySize/2;
+                  const scale = displaySize / CRYSTAL_SIZE_IN_CELL;
+                  const cellCenterX = (stone.col + 0.5) * CELL_WIDTH;
+                  const cellCenterY = (stone.row + 0.5) * CELL_HEIGHT;
+                  const offsetX = (cellCenterX - CRYSTAL_SIZE_IN_CELL / 2) * scale;
+                  const offsetY = (cellCenterY - CRYSTAL_SIZE_IN_CELL / 2) * scale;
                   
                   return (
                     <div 
@@ -281,9 +283,9 @@ function App() {
                       <div 
                         className="stone-preview-image" 
                         style={{ 
-                          backgroundImage: `url(${SPRITE_URL})`,
+                          backgroundImage: `url(${CRYSTALS_GRID_URL})`,
                           backgroundPosition: `-${offsetX}px -${offsetY}px`,
-                          backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
+                          backgroundSize: `${GRID_SIZE * scale}px ${GRID_SIZE * scale}px`,
                         }}
                       />
                       <span className="stone-name">{stone.name}</span>
