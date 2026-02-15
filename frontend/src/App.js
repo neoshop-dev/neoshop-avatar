@@ -322,9 +322,7 @@ function App() {
             {STONE_STYLES.map((style) => (
               <button
                 key={style.id}
-                className={`style-option ${
-                  selectedStyles.some((s) => s.id === style.id) ? "selected" : ""
-                }`}
+                className="style-option"
                 onClick={() => addStyle(style)}
                 disabled={selectedStyles.length >= 4}
                 data-testid={`style-option-${style.id}`}
