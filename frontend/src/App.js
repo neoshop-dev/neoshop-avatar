@@ -78,7 +78,7 @@ const SIZES = [
 
 // Diamètre des cristaux en % de la largeur du frontal
 // Ajusté pour correspondre aux emplacements sur l'image
-const CRYSTAL_DIAMETER_PCT = 1.8;
+const CRYSTAL_DIAMETER_PCT = 2.0;
 
 const PRICE = 39;
 
