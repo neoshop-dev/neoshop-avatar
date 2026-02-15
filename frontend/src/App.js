@@ -62,6 +62,7 @@ function App() {
   const [baseImage, setBaseImage] = useState(null);
   const [isExporting, setIsExporting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showZoom, setShowZoom] = useState(false);
   const canvasRef = useRef(null);
   const displayCanvasRef = useRef(null);
   const containerRef = useRef(null);
