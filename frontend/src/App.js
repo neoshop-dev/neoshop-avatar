@@ -369,6 +369,29 @@ function App() {
       <footer className="footer">
         <p>Equipassion Boutique - Configurateur de Frontal</p>
       </footer>
+
+      {/* Modal Zoom */}
+      {showZoom && (
+        <div className="zoom-modal" onClick={() => setShowZoom(false)} data-testid="zoom-modal">
+          <div className="zoom-content">
+            <button className="zoom-close" onClick={() => setShowZoom(false)}>×</button>
+            <div className="zoom-image-container">
+              <canvas
+                ref={(el) => {
+                  if (el && canvasRef.current) {
+                    const ctx = el.getContext("2d");
+                    el.width = BASE_WIDTH;
+                    el.height = BASE_HEIGHT;
+                    ctx.drawImage(canvasRef.current, 0, 0);
+                  }
+                }}
+                className="zoom-canvas"
+              />
+            </div>
+            <p className="zoom-hint-text">Pincez pour zoomer • Touchez pour fermer</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
