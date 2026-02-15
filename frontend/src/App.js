@@ -312,11 +312,13 @@ function App() {
           {/* Grille des pierres avec vraies images */}
           <div className="stones-grid" data-testid="stones-grid">
             {STONES.map((stone) => {
-              // Afficher la gemme à 60px, centrée sur son centre dans le sprite
+              // Afficher le cristal à 60px, centré dans sa cellule
               const displaySize = 60;
-              const scale = displaySize / 140; // échelle pour afficher à 60px
-              const offsetX = stone.centerX * scale - displaySize/2;
-              const offsetY = stone.centerY * scale - displaySize/2;
+              const scale = displaySize / CRYSTAL_SIZE_IN_CELL;
+              const cellCenterX = (stone.col + 0.5) * CELL_WIDTH;
+              const cellCenterY = (stone.row + 0.5) * CELL_HEIGHT;
+              const offsetX = (cellCenterX - CRYSTAL_SIZE_IN_CELL / 2) * scale;
+              const offsetY = (cellCenterY - CRYSTAL_SIZE_IN_CELL / 2) * scale;
               
               return (
                 <button
@@ -329,9 +331,9 @@ function App() {
                   <div 
                     className="stone-circle-image"
                     style={{ 
-                      backgroundImage: `url(${SPRITE_URL})`,
+                      backgroundImage: `url(${CRYSTALS_GRID_URL})`,
                       backgroundPosition: `-${offsetX}px -${offsetY}px`,
-                      backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
+                      backgroundSize: `${GRID_SIZE * scale}px ${GRID_SIZE * scale}px`,
                     }}
                   />
                   <span className="stone-label">{stone.name}</span>
