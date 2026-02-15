@@ -320,7 +320,6 @@ function App() {
                 key={style.id}
                 className="style-option"
                 onClick={() => addStyle(style)}
-                disabled={selectedStyles.length >= 4}
                 data-testid={`style-option-${style.id}`}
               >
                 <img
