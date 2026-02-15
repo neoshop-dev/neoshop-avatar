@@ -76,8 +76,9 @@ const SIZES = [
   { id: "xl", name: "XL", stones: 112 },
 ];
 
-// Diamètre des cristaux en % de la largeur du frontal (basé sur ~62px / 2662px)
-const CRYSTAL_DIAMETER_PCT = 2.3;
+// Diamètre des cristaux en % de la largeur du frontal
+// Ajusté pour correspondre aux emplacements sur l'image
+const CRYSTAL_DIAMETER_PCT = 1.8;
 
 const PRICE = 39;
 
