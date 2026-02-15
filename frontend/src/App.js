@@ -229,7 +229,7 @@ function App() {
           <h2>Prévisualisation</h2>
 
           <div className="frontal-preview" data-testid="frontal-preview">
-            <div className="canvas-container" ref={containerRef}>
+            <div className="canvas-container" ref={containerRef} onClick={() => !isLoading && setShowZoom(true)}>
               {/* Canvas caché pour l'export haute résolution */}
               <canvas ref={canvasRef} style={{ display: "none" }} />
               {/* Canvas d'affichage */}
@@ -246,6 +246,11 @@ function App() {
               {!isLoading && selectedStyles.length === 0 && (
                 <div className="overlay-message">
                   Sélectionnez des styles de strass ci-dessous
+                </div>
+              )}
+              {!isLoading && selectedStyles.length > 0 && (
+                <div className="zoom-hint">
+                  👆 Cliquez pour zoomer
                 </div>
               )}
             </div>
