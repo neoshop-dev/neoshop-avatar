@@ -396,12 +396,12 @@ section h2 .hint {
   }
 
   .style-option .style-image {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
 
   .style-option .style-label {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   .selection-info {
@@ -414,13 +414,33 @@ section h2 .hint {
 
   .btn-primary {
     width: 100%;
-    padding: 0.9rem 2rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+  }
+  
+  /* Améliorer la prévisualisation mobile */
+  .frontal-preview {
+    padding: 0.75rem;
+    border-radius: 6px;
+  }
+  
+  .pattern-explanation {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+  
+  .pattern-explanation ul {
+    margin-left: 1rem;
   }
 }
 
 @media (max-width: 480px) {
+  .header {
+    padding: 1.5rem 0.75rem;
+  }
+  
   .header h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   section h2 .hint {
@@ -433,15 +453,56 @@ section h2 .hint {
   }
 
   .info-item.price .value {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 
   .selected-stone-item {
     width: 100%;
     justify-content: flex-start;
   }
+  
+  .selected-stone-item .stone-preview-img {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .selected-stone-item .stone-name {
+    font-size: 0.85rem;
+  }
 
   .pattern-explanation {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+  }
+  
+  .pattern-explanation ul {
+    font-size: 0.75rem;
+  }
+  
+  /* Améliorer les boutons de style sur petit écran */
+  .styles-grid {
+    gap: 0.5rem;
+  }
+  
+  .style-option {
+    padding: 0.6rem;
+  }
+  
+  .style-option .style-image {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .style-option .style-label {
+    font-size: 0.8rem;
+  }
+  
+  /* Info plus compacte */
+  .selection-info {
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+  
+  .info-item .label {
+    font-size: 0.65rem;
   }
 }
