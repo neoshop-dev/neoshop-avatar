@@ -182,34 +182,32 @@ function App() {
                 className="frontal-real-image"
               />
               
-              {/* Cristaux superposés - positionnement précis sur les points blancs */}
+              {/* Cristaux superposés sur le frontal */}
               {selectedStones.length > 0 && containerWidth > 0 && (
                 <div className="stones-overlay">
                   {(() => {
-                    const totalDots = WHITE_DOTS.length;
-                    const stonesNeeded = Math.min(selectedSize.stones, totalDots);
+                    const stonesNeeded = selectedSize.stones;
                     
                     // Centrer les pierres sur le frontal
-                    const startIndex = Math.floor((totalDots - stonesNeeded) / 2);
-                    const selectedDots = WHITE_DOTS.slice(startIndex, startIndex + stonesNeeded);
+                    const startIndex = Math.floor((ALL_POSITIONS.length - stonesNeeded) / 2);
+                    const positions = ALL_POSITIONS.slice(startIndex, startIndex + stonesNeeded);
                     
-                    // Taille du cristal = exactement la taille du point blanc
-                    const stoneSizePx = (DOT_DIAMETER_PCT / 100) * containerWidth;
+                    // Taille du cristal en pixels (basée sur le conteneur)
+                    const crystalSizePx = (CRYSTAL_DIAMETER_PCT / 100) * containerWidth;
                     
-                    // Échelle pour extraire le cristal du sprite
-                    // Le cristal dans le sprite fait ~140px, on veut qu'il fasse stoneSizePx
-                    const scale = stoneSizePx / CRYSTAL_SIZE;
+                    // Échelle pour extraire le cristal du sprite (grille 1080x1080)
+                    const scale = crystalSizePx / CRYSTAL_SIZE_IN_CELL;
                     
-                    return selectedDots.map((dot, index) => {
+                    return positions.map((pos, index) => {
                       const stone = selectedStones[index % selectedStones.length];
                       
-                      // Position du cristal dans le sprite (centre de la cellule)
+                      // Position du cristal dans la grille (centre de la cellule)
                       const cellCenterX = (stone.col + 0.5) * CELL_WIDTH;
                       const cellCenterY = (stone.row + 0.5) * CELL_HEIGHT;
                       
-                      // Offset pour centrer le cristal dans le conteneur
-                      const offsetX = (cellCenterX - CRYSTAL_SIZE / 2) * scale;
-                      const offsetY = (cellCenterY - CRYSTAL_SIZE / 2) * scale;
+                      // Offset pour centrer le cristal
+                      const offsetX = (cellCenterX - CRYSTAL_SIZE_IN_CELL / 2) * scale;
+                      const offsetY = (cellCenterY - CRYSTAL_SIZE_IN_CELL / 2) * scale;
                       
                       return (
                         <div 
@@ -217,13 +215,13 @@ function App() {
                           className="overlay-strass"
                           data-testid={`preview-stone-${index}`}
                           style={{
-                            left: `${dot.x}%`,
-                            top: `${dot.y}%`,
-                            width: `${stoneSizePx}px`,
-                            height: `${stoneSizePx}px`,
-                            backgroundImage: `url(${SPRITE_URL})`,
+                            left: `${pos.x}%`,
+                            top: `${pos.y}%`,
+                            width: `${crystalSizePx}px`,
+                            height: `${crystalSizePx}px`,
+                            backgroundImage: `url(${CRYSTALS_GRID_URL})`,
                             backgroundPosition: `-${offsetX}px -${offsetY}px`,
-                            backgroundSize: `${SPRITE_WIDTH * scale}px ${SPRITE_HEIGHT * scale}px`,
+                            backgroundSize: `${GRID_SIZE * scale}px ${GRID_SIZE * scale}px`,
                           }}
                         />
                       );
