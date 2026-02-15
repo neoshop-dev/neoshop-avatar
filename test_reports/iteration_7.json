@@ -10,7 +10,7 @@
     "design_issues": []
   },
   "passed_tests": [
-    "App loads correctly at https://horse-bling.preview.emergentagent.com",
+    "App loads correctly at https://equine-bling-lab.preview.emergentagent.com",
     "Main title 'Créez Votre Frontal' displayed",
     "19 crystal types displayed in selection grid with real sprite images",
     "Price displayed correctly as 39,00 €",

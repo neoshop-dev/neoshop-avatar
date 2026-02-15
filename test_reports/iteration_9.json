@@ -10,7 +10,7 @@
     "design_issues": []
   },
   "passed_tests": [
-    "App loads correctly at https://horse-bling.preview.emergentagent.com",
+    "App loads correctly at https://equine-bling-lab.preview.emergentagent.com",
     "Main title 'Créez Votre Frontal' displayed correctly",
     "base-frontal-clean.png base image displayed without green dots",
     "4 stone styles available: Marron, Saphir, Noir Diamant, Fushia",
