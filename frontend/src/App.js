@@ -58,7 +58,8 @@ const STONE_POSITIONS = [
 
 // Taille des strass en pixels sur l'image originale
 // Calibré pour correspondre aux points verts sans chevauchement
-const STONE_SIZE = 55;
+// Distance min entre points: ~42px, donc taille max = 42px
+const STONE_SIZE = 40;
 
 const PRICE = 39;
 
