@@ -179,15 +179,10 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, [drawCanvas]);
 
-  // Ajouter un style à la sélection (max 4)
+  // Ajouter un style à la sélection (max 4, permet les doublons)
   const addStyle = (style) => {
-    if (selectedStyles.length < 4 && !selectedStyles.find((s) => s.id === style.id)) {
+    if (selectedStyles.length < 4) {
       setSelectedStyles([...selectedStyles, style]);
-    } else if (selectedStyles.find((s) => s.id === style.id)) {
-      // Si déjà sélectionné, on peut le rajouter pour le pattern
-      if (selectedStyles.length < 4) {
-        setSelectedStyles([...selectedStyles, style]);
-      }
     }
   };
 
