@@ -589,11 +589,49 @@ section h2 .hint {
   display: block;
 }
 
-.zoom-hint-text {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.85rem;
+.zoom-actions {
+  display: flex;
+  gap: 0.75rem;
   margin-top: 1rem;
-  text-align: center;
+  justify-content: center;
+}
+
+.zoom-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zoom-download {
+  background: var(--color-gold);
+  color: #1a1a1a;
+}
+
+.zoom-download:hover {
+  background: #d4b366;
+  transform: scale(1.03);
+}
+
+.zoom-share {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.zoom-share:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.03);
+}
+
+.zoom-btn svg {
+  flex-shrink: 0;
 }
 
 /* Responsive */
