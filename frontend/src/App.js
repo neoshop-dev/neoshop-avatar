@@ -467,7 +467,7 @@ function App() {
       {/* Modal Zoom */}
       {showZoom && (
         <div className="zoom-modal" onClick={() => setShowZoom(false)} data-testid="zoom-modal">
-          <div className="zoom-content">
+          <div className="zoom-content" onClick={(e) => e.stopPropagation()}>
             <button className="zoom-close" onClick={() => setShowZoom(false)}>×</button>
             <div className="zoom-image-container">
               <canvas
@@ -480,9 +480,56 @@ function App() {
                   }
                 }}
                 className="zoom-canvas"
+                id="zoom-canvas"
               />
             </div>
-            <p className="zoom-hint-text">Pincez pour zoomer • Touchez pour fermer</p>
+            <div className="zoom-actions">
+              <button 
+                className="zoom-btn zoom-download"
+                onClick={() => {
+                  const canvas = document.getElementById('zoom-canvas');
+                  if (canvas) {
+                    const link = document.createElement('a');
+                    link.download = `frontal-${selectedLeather.id}-${selectedSize.id}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                  }
+                }}
+                data-testid="download-btn"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                </svg>
+                PNG
+              </button>
+              <button 
+                className="zoom-btn zoom-share"
+                onClick={() => {
+                  const canvas = document.getElementById('zoom-canvas');
+                  if (navigator.share && canvas) {
+                    canvas.toBlob((blob) => {
+                      const file = new File([blob], 'mon-frontal.png', { type: 'image/png' });
+                      navigator.share({
+                        title: 'Mon frontal personnalisé',
+                        text: `Cuir ${selectedLeather.name} - ${selectedStyles.map(s => s.name).join(' → ')}`,
+                        files: [file]
+                      }).catch(() => {});
+                    });
+                  } else {
+                    const text = encodeURIComponent('Découvrez mon frontal personnalisé !');
+                    const url = encodeURIComponent(window.location.href);
+                    window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+                  }
+                }}
+                data-testid="share-btn"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                Partager
+              </button>
+            </div>
           </div>
         </div>
       )}
