@@ -280,7 +280,9 @@ function App() {
                 onClick={() => setSelectedLeather(leather)}
                 data-testid={`leather-option-${leather.id}`}
               >
-                <div className={`leather-swatch leather-${leather.id}`}></div>
+                <div className={`leather-swatch leather-${leather.id}`}>
+                  <img src={leather.swatch} alt={leather.name} />
+                </div>
                 <span>{leather.name}</span>
               </button>
             ))}
