@@ -24,58 +24,72 @@ const STONE_STYLES = [
   { id: "rouge-rubis", name: "Rouge Rubis", src: "/style19.png" },
 ];
 
-// Image de base du frontal (sans les points verts)
-const BASE_IMAGE_URL = "/base-frontal-clean.png";
-const BASE_WIDTH = 2816;
-const BASE_HEIGHT = 557;
-
-// Positions exactes des 33 points verts détectés sur l'image de base
-const STONE_POSITIONS = [
-  { x: 721, y: 186 },
-  { x: 770, y: 191 },
-  { x: 820, y: 201 },
-  { x: 871, y: 212 },
-  { x: 921, y: 224 },
-  { x: 971, y: 239 },
-  { x: 1019, y: 255 },
-  { x: 1064, y: 272 },
-  { x: 1108, y: 289 },
-  { x: 1153, y: 305 },
-  { x: 1194, y: 316 },
-  { x: 1241, y: 333 },
-  { x: 1290, y: 347 },
-  { x: 1340, y: 356 },
-  { x: 1387, y: 363 },
-  { x: 1434, y: 368 },
-  { x: 1483, y: 370 },
-  { x: 1531, y: 368 },
-  { x: 1580, y: 365 },
-  { x: 1630, y: 360 },
-  { x: 1678, y: 349 },
-  { x: 1723, y: 337 },
-  { x: 1768, y: 327 },
-  { x: 1813, y: 315 },
-  { x: 1860, y: 300 },
-  { x: 1908, y: 286 },
-  { x: 1955, y: 272 },
-  { x: 2003, y: 258 },
-  { x: 2050, y: 246 },
-  { x: 2096, y: 234 },
-  { x: 2144, y: 225 },
-  { x: 2193, y: 219 },
-  { x: 2242, y: 213 },
+// Options de couleur de cuir
+const LEATHER_OPTIONS = [
+  { 
+    id: "noir", 
+    name: "Noir", 
+    src: "/base-frontal-clean.png",
+    width: 2816,
+    height: 557,
+    stoneSize: 52,
+    positions: [
+      { x: 721, y: 186 }, { x: 770, y: 191 }, { x: 820, y: 201 }, { x: 871, y: 212 },
+      { x: 921, y: 224 }, { x: 971, y: 239 }, { x: 1019, y: 255 }, { x: 1064, y: 272 },
+      { x: 1108, y: 289 }, { x: 1153, y: 305 }, { x: 1194, y: 316 }, { x: 1241, y: 333 },
+      { x: 1290, y: 347 }, { x: 1340, y: 356 }, { x: 1387, y: 363 }, { x: 1434, y: 368 },
+      { x: 1483, y: 370 }, { x: 1531, y: 368 }, { x: 1580, y: 365 }, { x: 1630, y: 360 },
+      { x: 1678, y: 349 }, { x: 1723, y: 337 }, { x: 1768, y: 327 }, { x: 1813, y: 315 },
+      { x: 1860, y: 300 }, { x: 1908, y: 286 }, { x: 1955, y: 272 }, { x: 2003, y: 258 },
+      { x: 2050, y: 246 }, { x: 2096, y: 234 }, { x: 2144, y: 225 }, { x: 2193, y: 219 },
+      { x: 2242, y: 213 },
+    ]
+  },
+  { 
+    id: "havane", 
+    name: "Havane", 
+    src: "/cuir-havane-clean.png",
+    width: 2048,
+    height: 405,
+    stoneSize: 38,
+    positions: [
+      { x: 548, y: 109 }, { x: 581, y: 116 }, { x: 614, y: 126 }, { x: 648, y: 140 },
+      { x: 681, y: 151 }, { x: 715, y: 163 }, { x: 748, y: 176 }, { x: 782, y: 188 },
+      { x: 815, y: 202 }, { x: 849, y: 214 }, { x: 882, y: 224 }, { x: 916, y: 236 },
+      { x: 949, y: 248 }, { x: 983, y: 257 }, { x: 1016, y: 263 }, { x: 1050, y: 267 },
+      { x: 1083, y: 269 }, { x: 1116, y: 267 }, { x: 1150, y: 265 }, { x: 1183, y: 262 },
+      { x: 1217, y: 253 }, { x: 1250, y: 244 }, { x: 1284, y: 237 }, { x: 1317, y: 228 },
+      { x: 1351, y: 217 }, { x: 1384, y: 208 }, { x: 1418, y: 196 }, { x: 1451, y: 187 },
+      { x: 1485, y: 178 }, { x: 1518, y: 169 }, { x: 1552, y: 163 }, { x: 1585, y: 159 },
+      { x: 1619, y: 154 },
+    ]
+  },
+  { 
+    id: "noisette", 
+    name: "Noisette", 
+    src: "/cuir-noisette-clean.png",
+    width: 2048,
+    height: 405,
+    stoneSize: 38,
+    positions: [
+      { x: 608, y: 153 }, { x: 637, y: 161 }, { x: 667, y: 169 }, { x: 697, y: 179 },
+      { x: 727, y: 192 }, { x: 757, y: 202 }, { x: 787, y: 215 }, { x: 817, y: 226 },
+      { x: 847, y: 226 }, { x: 877, y: 236 }, { x: 907, y: 247 }, { x: 936, y: 256 },
+      { x: 966, y: 261 }, { x: 996, y: 264 }, { x: 1026, y: 266 }, { x: 1056, y: 267 },
+      { x: 1086, y: 269 }, { x: 1116, y: 267 }, { x: 1146, y: 265 }, { x: 1176, y: 262 },
+      { x: 1206, y: 255 }, { x: 1236, y: 256 }, { x: 1265, y: 249 }, { x: 1295, y: 240 },
+      { x: 1325, y: 229 }, { x: 1355, y: 217 }, { x: 1385, y: 204 }, { x: 1415, y: 204 },
+      { x: 1445, y: 193 }, { x: 1475, y: 182 }, { x: 1505, y: 171 }, { x: 1535, y: 164 },
+      { x: 1565, y: 158 },
+    ]
+  },
 ];
 
-// Taille des strass en pixels sur l'image originale
-// Calibré pour que les cristaux se frôlent légèrement
-const STONE_SIZE = 52;
-
-const PRICE = 39;
-
 function App() {
+  const [selectedLeather, setSelectedLeather] = useState(LEATHER_OPTIONS[0]);
   const [selectedStyles, setSelectedStyles] = useState([]);
   const [loadedImages, setLoadedImages] = useState({});
-  const [baseImage, setBaseImage] = useState(null);
+  const [leatherImages, setLeatherImages] = useState({});
   const [isExporting, setIsExporting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showZoom, setShowZoom] = useState(false);
