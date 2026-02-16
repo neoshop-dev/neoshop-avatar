@@ -470,12 +470,12 @@ Envoyez-la avec votre commande !
         {/* Boutons d'action */}
         <section className="actions-section" data-testid="actions-section">
           <button
-            className="btn-primary"
-            onClick={exportPNG}
+            className="btn-primary btn-add-cart"
+            onClick={addToCart}
             disabled={selectedStyles.length === 0 || isExporting}
-            data-testid="export-btn"
+            data-testid="add-to-cart-btn"
           >
-            {isExporting ? "Export en cours..." : "Exporter en PNG"}
+            {isExporting ? "Ajout en cours..." : "Ajouter au panier"}
           </button>
         </section>
       </main>
