@@ -13,7 +13,7 @@
     ]
   },
   "passed_tests": [
-    "App loads correctly at https://equine-bling-lab.preview.emergentagent.com",
+    "App loads correctly at https://browband-customizer.preview.emergentagent.com",
     "19 rhinestone crystal types available in selection grid",
     "Crystals visible with real images via sprite sheet (background-image)",
     "Crystals positioned on white dots using percentage coordinates",

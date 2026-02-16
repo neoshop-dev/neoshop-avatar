@@ -10,7 +10,7 @@
     "design_issues": []
   },
   "passed_tests": [
-    "App loads correctly at https://equine-bling-lab.preview.emergentagent.com",
+    "App loads correctly at https://browband-customizer.preview.emergentagent.com",
     "Main title 'Créez Votre Frontal' displayed correctly",
     "Styles grid visible with 3-column layout",
     "All 9 stone styles displayed: Marron, Saphir, Noir Diamant, Fushia, Bleu Marine, Rose, Argent, Turquoise, Bordeaux",

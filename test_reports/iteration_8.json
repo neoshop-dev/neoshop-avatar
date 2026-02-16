@@ -10,7 +10,7 @@
     "design_issues": []
   },
   "passed_tests": [
-    "App loads correctly at https://equine-bling-lab.preview.emergentagent.com",
+    "App loads correctly at https://browband-customizer.preview.emergentagent.com",
     "Main title 'Créez Votre Frontal' displayed",
     "NEW frontal-vide.png image displayed correctly with black holes visible",
     "19 crystals displayed in grid from NEW crystals-grid.png sprite sheet",
