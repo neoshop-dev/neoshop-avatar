@@ -100,7 +100,7 @@ function App() {
   // Charger les images au démarrage
   useEffect(() => {
     let loadedCount = 0;
-    const totalImages = STONE_STYLES.length + 1; // +1 pour l'image de base
+    const totalImages = STONE_STYLES.length + LEATHER_OPTIONS.length;
     
     const checkAllLoaded = () => {
       loadedCount++;
@@ -109,15 +109,17 @@ function App() {
       }
     };
 
-    // Charger l'image de base
-    const base = new Image();
-    base.crossOrigin = "anonymous";
-    base.onload = () => {
-      setBaseImage(base);
-      checkAllLoaded();
-    };
-    base.onerror = checkAllLoaded;
-    base.src = BASE_IMAGE_URL;
+    // Charger les images de cuir
+    LEATHER_OPTIONS.forEach((leather) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        setLeatherImages((prev) => ({ ...prev, [leather.id]: img }));
+        checkAllLoaded();
+      };
+      img.onerror = checkAllLoaded;
+      img.src = leather.src;
+    });
 
     // Charger les images des strass
     STONE_STYLES.forEach((style) => {
@@ -137,6 +139,7 @@ function App() {
     const canvas = canvasRef.current;
     const displayCanvas = displayCanvasRef.current;
     const container = containerRef.current;
+    const baseImage = leatherImages[selectedLeather.id];
     if (!canvas || !displayCanvas || !baseImage || !container) return;
 
     const ctx = canvas.getContext("2d", { alpha: false });
