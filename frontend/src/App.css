@@ -248,6 +248,41 @@ section h2 .hint {
   color: var(--color-text);
 }
 
+/* Size Selection Section */
+.size-selection-section {
+  background-color: var(--color-cream);
+}
+
+.size-options {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.size-option {
+  padding: 0.75rem 2rem;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-text);
+  transition: all 0.2s;
+}
+
+.size-option:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+}
+
+.size-option.selected {
+  border-color: var(--color-gold);
+  background-color: rgba(201, 162, 39, 0.1);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
+}
+
 /* Stones Selection Section */
 .stones-selection-section h2 {
   display: flex;
