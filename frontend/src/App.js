@@ -258,6 +258,24 @@ function App() {
       </header>
 
       <main className="main-content">
+        {/* Section Couleur du Cuir */}
+        <section className="leather-selection-section" data-testid="leather-selection">
+          <h2>Couleur du cuir</h2>
+          <div className="leather-options">
+            {LEATHER_OPTIONS.map((leather) => (
+              <button
+                key={leather.id}
+                className={`leather-option ${selectedLeather.id === leather.id ? 'selected' : ''}`}
+                onClick={() => setSelectedLeather(leather)}
+                data-testid={`leather-option-${leather.id}`}
+              >
+                <div className={`leather-swatch leather-${leather.id}`}></div>
+                <span>{leather.name}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+
         {/* Section Prévisualisation */}
         <section className="preview-section" data-testid="preview-section">
           <h2>Prévisualisation</h2>
