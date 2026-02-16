@@ -1,71 +1,65 @@
 # PRD - Configurateur de Frontal Équestre
 
 ## Problème Original
-Création d'un configurateur de frontal équestre avec EXACTEMENT 33 strass individuels placés sur des positions prédéfinies (anciennement marquées par des points verts). L'utilisateur sélectionne 1 à 4 styles de strass et les 33 emplacements sont remplis avec un pattern répétitif.
+Création d'un configurateur de frontal équestre personnalisable à intégrer sur la boutique Shopify `equipassion-boutique.com`. L'utilisateur peut choisir un cuir, une taille, et créer un pattern de strass illimité.
 
 ## Architecture
 - Frontend React standalone avec HTML Canvas
-- Export PNG haute résolution (2816x557px)
-- Image de base: `base-frontal-clean.png` (points verts supprimés)
-- 9 images de strass individuels
+- Export PNG haute résolution
+- 3 images de cuir différentes (Noir, Havane, Noisette)
+- 19 images de strass individuels
+- Intégration Shopify via URL de redirection
 
 ## Core Requirements (Tous Implémentés)
+- ✅ **3 couleurs de cuir**: Noir, Havane, Noisette (avec swatches réalistes)
+- ✅ **3 tailles**: Poney, Cob, Full (informatives)
+- ✅ **19 styles de strass disponibles**: 
+  - Marron, Saphir, Noir Diamant, Fushia
+  - Bleu Marine, Rose, Argent, Turquoise, Bordeaux, Orange
+  - Amethyst, Or, Bleu Canard, Vitrail Clair, Saphir Fumé
+  - Violet, Emeraude, Noir Intense, Rouge Rubis
+- ✅ Pattern illimité (plus de limite de 4 styles)
+- ✅ Pattern répétitif sur 33 positions
 - ✅ 33 strass individuels positionnés sur la courbe du frontal
-- ✅ **9 styles disponibles**: 
-  - Marron, Saphir, Noir Diamant, Fushia (4 originaux)
-  - Bleu Marine, Rose, Argent, Turquoise, Bordeaux (5 nouveaux - Décembre 2025)
-- ✅ Sélection de 1 à 4 styles avec pattern répétitif
-- ✅ Même couleur sélectionnable plusieurs fois (ex: A-A-B)
-- ✅ Pattern: slot[i] = selectedStyles[i % length]
-  - 1 style → même strass répété 33 fois
-  - 2 styles → A-B-A-B...
-  - 3 styles → A-B-C-A-B-C...
-  - 4 styles → A-B-C-D-A-B-C-D...
-- ✅ Prix fixe: 39€
-- ✅ Taille unique (pas de sélection de taille)
-- ✅ Export PNG haute résolution
 - ✅ Rendu Canvas avec mise à jour live
 - ✅ Design responsive mobile
 - ✅ Zoom modal au clic sur l'aperçu
+- ✅ **Intégration Shopify "Ajouter au panier"**
 
-## Détails Techniques
-- 33 positions hardcodées dans `STONE_POSITIONS`
-- Positions détectées depuis les points verts de l'image originale
-- Canvas haute résolution (2816x557) pour l'export
-- Canvas d'affichage redimensionné dynamiquement
-- **Taille des strass: 42px** (calibré pour éviter chevauchement, distance min ~42px)
-- Grille CSS 3 colonnes pour afficher les 9 styles
+## Intégration Shopify
+- **Domaine**: equipassion-boutique.myshopify.com
+- **9 Variant IDs configurés** (3 cuirs × 3 tailles)
+- **Propriétés transmises au panier**:
+  - Cuir (Noir/Havane/Noisette)
+  - Taille (Poney/Cob/Full)
+  - Pattern strass (liste des couleurs)
+- **Méthode**: Redirection URL vers /cart/add
 
-## Tests Passés (100% - Décembre 2025)
-- ✅ Image de base sans points verts
-- ✅ 9 styles de strass disponibles
-- ✅ Pattern répétitif 1-4 styles
-- ✅ Sélection couleur en double
-- ✅ 33 strass affichés sans chevauchement
-- ✅ Export PNG fonctionnel
-- ✅ Bouton "Tout effacer"
-- ✅ Retrait individuel des styles
-- ✅ Modal zoom fonctionnel
-- ✅ Responsivité mobile (375px)
+### Variant IDs Shopify
+| Cuir | Poney | Cob | Full |
+|------|-------|-----|------|
+| Noisette | 49778460164435 | 51528913092947 | 51528913125715 |
+| Havane | 52860492415315 | 52860492448083 | 52860492480851 |
+| Noir | 52860492513619 | 52860492546387 | 52860492579155 |
 
 ## Fichiers Clés
-- `/app/frontend/src/App.js` - Composant Canvas avec logique de rendu
+- `/app/frontend/src/App.js` - Composant principal avec Canvas et logique Shopify
 - `/app/frontend/src/App.css` - Styles et responsive
-- `/app/frontend/public/base-frontal-clean.png` - Image de base propre
-- `/app/frontend/public/stone-*.png` - 4 images de strass originaux
-- `/app/frontend/public/style5-9.png` - 5 nouvelles images de strass
+- `/app/frontend/public/base-frontal-clean.png` - Cuir Noir
+- `/app/frontend/public/cuir-havane-clean.png` - Cuir Havane
+- `/app/frontend/public/cuir-noisette-clean.png` - Cuir Noisette
+- `/app/frontend/public/stone-*.png` - Images de strass
+- `/app/frontend/public/style*.png` - Images de strass supplémentaires
 
-## Positions des 33 Strass (en pixels)
-Détectées depuis les points verts de l'image originale (2816x557px).
-Rangées de x=721 à x=2242, suivant la courbe du frontal.
+## Code d'Intégration Shopify (Popup)
+Le configurateur peut être intégré sur une page produit Shopify via un bouton qui ouvre une modal contenant une iframe vers l'URL de preview.
 
 ## Historique des Modifications
-- Décembre 2025: Refonte complète de l'application
-- Décembre 2025: Passage de sprite sheet à 4 images PNG individuelles
-- Décembre 2025: Passage de DOM à HTML Canvas
-- Décembre 2025: 33 positions fixes au lieu de 99
-- Décembre 2025: Suppression des tailles (taille unique)
-- Décembre 2025: Ajout zoom modal + réutilisation couleur
-- Décembre 2025: **+5 nouvelles couleurs** (Bleu Marine, Rose, Argent, Turquoise, Bordeaux)
-- Décembre 2025: **Calibrage strass à 42px** pour éviter chevauchement
-- Décembre 2025: Tests passés 100% (22/22)
+- Décembre 2025: Création initiale avec 4 strass
+- Décembre 2025: Extension à 19 couleurs de strass
+- Décembre 2025: Ajout sélecteur de cuir (Noir, Havane, Noisette)
+- Décembre 2025: Ajout sélecteur de taille (Poney, Cob, Full)
+- Décembre 2025: Suppression limite 4 strass → pattern illimité
+- Décembre 2025: Calibrage taille strass à 52px
+- Décembre 2025: Nettoyage images Havane/Noisette (artifacts supprimés)
+- Décembre 2025: **Intégration Shopify complétée** avec 9 variant IDs
