@@ -284,6 +284,23 @@ function App() {
           </div>
         </section>
 
+        {/* Section Taille */}
+        <section className="size-selection-section" data-testid="size-selection">
+          <h2>Taille</h2>
+          <div className="size-options">
+            {SIZE_OPTIONS.map((size) => (
+              <button
+                key={size.id}
+                className={`size-option ${selectedSize.id === size.id ? 'selected' : ''}`}
+                onClick={() => setSelectedSize(size)}
+                data-testid={`size-option-${size.id}`}
+              >
+                {size.name}
+              </button>
+            ))}
+          </div>
+        </section>
+
         {/* Section Prévisualisation */}
         <section className="preview-section" data-testid="preview-section">
           <h2>Prévisualisation</h2>
