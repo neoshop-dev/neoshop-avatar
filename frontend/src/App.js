@@ -201,7 +201,7 @@ function App() {
       0, 0, BASE_WIDTH, BASE_HEIGHT,
       0, 0, displayCanvas.width, displayCanvas.height
     );
-  }, [baseImage, selectedStyles, loadedImages]);
+  }, [selectedLeather, leatherImages, selectedStyles, loadedImages]);
 
   // Redessiner quand les dépendances changent
   useEffect(() => {
@@ -234,7 +234,7 @@ function App() {
 
     // Créer un lien de téléchargement
     const link = document.createElement("a");
-    link.download = "frontal-personnalise.png";
+    link.download = `frontal-${selectedLeather.id}-personnalise.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
 
