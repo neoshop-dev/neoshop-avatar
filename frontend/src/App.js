@@ -263,7 +263,7 @@ function App() {
   };
 
   // Ajouter au panier Shopify
-  const addToCart = async () => {
+  const addToCart = () => {
     if (selectedStyles.length === 0) return;
     
     setIsExporting(true);
@@ -272,75 +272,30 @@ function App() {
     const variantKey = `${selectedLeather.id}-${selectedSize.id}`;
     const variantId = SHOPIFY_CONFIG.variants[variantKey];
     
+    if (!variantId) {
+      alert("Erreur: combinaison cuir/taille non trouvée");
+      setIsExporting(false);
+      return;
+    }
+    
     // Générer la description du pattern
     const patternDescription = selectedStyles.map(s => s.name).join(" → ");
     
-    // Générer l'image en base64
-    const canvas = canvasRef.current;
-    const imageData = canvas ? canvas.toDataURL("image/png") : null;
+    // Construire l'URL d'ajout au panier Shopify
+    // Format: /cart/add?id={variant_id}&quantity=1&properties[key]=value
+    const params = new URLSearchParams();
+    params.append('id', variantId);
+    params.append('quantity', '1');
+    params.append('properties[Cuir]', selectedLeather.name);
+    params.append('properties[Taille]', selectedSize.name);
+    params.append('properties[Pattern strass]', patternDescription);
     
-    try {
-      // Préparer les données pour Shopify
-      const formData = {
-        items: [{
-          id: variantId,
-          quantity: 1,
-          properties: {
-            "Pattern strass": patternDescription,
-            "_customization_image": imageData
-          }
-        }]
-      };
-      
-      // Ajouter au panier via l'API Shopify
-      const response = await fetch(`${SHOPIFY_CONFIG.domain}/cart/add.js`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-        credentials: 'include'
-      });
-      
-      if (response.ok) {
-        // Succès ! Rediriger vers le panier
-        window.location.href = `${SHOPIFY_CONFIG.domain}/cart`;
-      } else {
-        // Si erreur CORS (normal en dev), ouvrir le panier avec les params
-        const cartUrl = `${SHOPIFY_CONFIG.domain}/cart/add?id=${variantId}&quantity=1&properties[Pattern strass]=${encodeURIComponent(patternDescription)}`;
-        window.open(cartUrl, '_blank');
-      }
-    } catch (error) {
-      console.log("Mode standalone - téléchargement de l'image");
-      
-      // En cas d'erreur (CORS), télécharger l'image + afficher récap
-      const recap = `
-✨ Votre frontal personnalisé ✨
-
-📋 Récapitulatif:
-• Cuir: ${selectedLeather.name}
-• Taille: ${selectedSize.name}
-• Strass: ${patternDescription}
-
-💰 Prix: 39,00 €
-
-L'image de votre création a été téléchargée.
-Pour commander, rendez-vous sur equipassion-boutique.com
-et joignez cette image à votre commande !
-      `.trim();
-      
-      // Télécharger l'image
-      if (imageData) {
-        const link = document.createElement("a");
-        link.download = `frontal-${selectedLeather.id}-${selectedSize.id}-personnalise.png`;
-        link.href = imageData;
-        link.click();
-      }
-      
-      alert(recap);
-    }
+    // URL finale pour ajouter au panier
+    const cartAddUrl = `${SHOPIFY_CONFIG.domain}/cart/add?${params.toString()}`;
     
-    setTimeout(() => setIsExporting(false), 1000);
+    // Redirection vers Shopify pour ajouter au panier
+    // L'utilisateur sera redirigé vers son panier avec le produit ajouté
+    window.location.href = cartAddUrl;
   };
 
   // Générer la description du pattern
