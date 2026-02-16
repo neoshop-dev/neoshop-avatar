@@ -400,8 +400,8 @@ function App() {
                 ref={(el) => {
                   if (el && canvasRef.current) {
                     const ctx = el.getContext("2d");
-                    el.width = BASE_WIDTH;
-                    el.height = BASE_HEIGHT;
+                    el.width = selectedLeather.width;
+                    el.height = selectedLeather.height;
                     ctx.drawImage(canvasRef.current, 0, 0);
                   }
                 }}
