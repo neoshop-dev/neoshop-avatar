@@ -145,6 +145,9 @@ function App() {
     const ctx = canvas.getContext("2d", { alpha: false });
     const displayCtx = displayCanvas.getContext("2d", { alpha: false });
 
+    // Utiliser les dimensions du cuir sélectionné
+    const { width: BASE_WIDTH, height: BASE_HEIGHT, stoneSize, positions } = selectedLeather;
+
     // Canvas haute résolution pour l'export
     canvas.width = BASE_WIDTH;
     canvas.height = BASE_HEIGHT;
@@ -158,15 +161,15 @@ function App() {
 
     // Si des styles sont sélectionnés, dessiner les 33 strass
     if (selectedStyles.length > 0) {
-      STONE_POSITIONS.forEach((pos, index) => {
+      positions.forEach((pos, index) => {
         const styleIndex = index % selectedStyles.length;
         const style = selectedStyles[styleIndex];
         const stoneImg = loadedImages[style.id];
 
         if (stoneImg) {
-          const drawX = pos.x - STONE_SIZE / 2;
-          const drawY = pos.y - STONE_SIZE / 2;
-          ctx.drawImage(stoneImg, drawX, drawY, STONE_SIZE, STONE_SIZE);
+          const drawX = pos.x - stoneSize / 2;
+          const drawY = pos.y - stoneSize / 2;
+          ctx.drawImage(stoneImg, drawX, drawY, stoneSize, stoneSize);
         }
       });
     }
