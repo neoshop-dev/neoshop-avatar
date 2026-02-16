@@ -85,8 +85,16 @@ const LEATHER_OPTIONS = [
   },
 ];
 
+// Options de taille (informatives uniquement)
+const SIZE_OPTIONS = [
+  { id: "poney", name: "Poney" },
+  { id: "cob", name: "Cob" },
+  { id: "full", name: "Full" },
+];
+
 function App() {
   const [selectedLeather, setSelectedLeather] = useState(LEATHER_OPTIONS[0]);
+  const [selectedSize, setSelectedSize] = useState(SIZE_OPTIONS[1]); // Cob par défaut
   const [selectedStyles, setSelectedStyles] = useState([]);
   const [loadedImages, setLoadedImages] = useState({});
   const [leatherImages, setLeatherImages] = useState({});
