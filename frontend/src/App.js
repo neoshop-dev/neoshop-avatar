@@ -236,19 +236,86 @@ function App() {
     setSelectedStyles(selectedStyles.filter((_, i) => i !== index));
   };
 
-  // Exporter en PNG
-  const exportPNG = () => {
+  // Générer l'image en base64
+  const getImageBase64 = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return null;
+    return canvas.toDataURL("image/png");
+  };
 
+  // Ajouter au panier Shopify
+  const addToCart = async () => {
+    if (selectedStyles.length === 0) return;
+    
     setIsExporting(true);
+    
+    // Générer la description de la personnalisation
+    const customization = {
+      cuir: selectedLeather.name,
+      taille: selectedSize.name,
+      pattern: selectedStyles.map(s => s.name).join(" → "),
+      image: getImageBase64()
+    };
+    
+    // Configuration Shopify (à personnaliser)
+    const SHOPIFY_DOMAIN = window.SHOPIFY_DOMAIN || null;
+    const PRODUCT_VARIANT_ID = window.SHOPIFY_VARIANT_ID || null;
+    
+    if (SHOPIFY_DOMAIN && PRODUCT_VARIANT_ID) {
+      // Mode Shopify intégré
+      try {
+        const formData = {
+          items: [{
+            id: PRODUCT_VARIANT_ID,
+            quantity: 1,
+            properties: {
+              "Cuir": customization.cuir,
+              "Taille": customization.taille,
+              "Pattern strass": customization.pattern,
+              "_customization_image": customization.image
+            }
+          }]
+        };
+        
+        const response = await fetch(`${SHOPIFY_DOMAIN}/cart/add.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+          // Rediriger vers le panier
+          window.location.href = `${SHOPIFY_DOMAIN}/cart`;
+        } else {
+          alert("Erreur lors de l'ajout au panier. Veuillez réessayer.");
+        }
+      } catch (error) {
+        console.error("Erreur Shopify:", error);
+        alert("Erreur de connexion. Veuillez réessayer.");
+      }
+    } else {
+      // Mode standalone - télécharger l'image + afficher récap
+      const recap = `
+🎨 Votre frontal personnalisé
 
-    // Créer un lien de téléchargement
-    const link = document.createElement("a");
-    link.download = `frontal-${selectedLeather.id}-personnalise.png`;
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+📋 Récapitulatif:
+• Cuir: ${customization.cuir}
+• Taille: ${customization.taille}
+• Strass: ${customization.pattern}
 
+L'image de votre création a été téléchargée.
+Envoyez-la avec votre commande !
+      `.trim();
+      
+      // Télécharger l'image
+      const link = document.createElement("a");
+      link.download = `frontal-${selectedLeather.id}-${selectedSize.id}.png`;
+      link.href = customization.image;
+      link.click();
+      
+      alert(recap);
+    }
+    
     setTimeout(() => setIsExporting(false), 1000);
   };
 
