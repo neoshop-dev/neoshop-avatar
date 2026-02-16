@@ -502,6 +502,19 @@ section h2 .hint {
   transition: all 0.3s;
 }
 
+.btn-primary.btn-add-cart {
+  background: linear-gradient(135deg, #2d8f47 0%, #1e6b33 100%);
+  padding: 1.25rem 4rem;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(45, 143, 71, 0.3);
+}
+
+.btn-primary.btn-add-cart:hover:not(:disabled) {
+  background: linear-gradient(135deg, #34a853 0%, #2d8f47 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(45, 143, 71, 0.4);
+}
+
 .btn-primary:hover:not(:disabled) {
   background-color: var(--color-gold-light);
   transform: translateY(-2px);
@@ -509,7 +522,7 @@ section h2 .hint {
 }
 
 .btn-primary:disabled {
-  background-color: #ccc;
+  background: #ccc;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
