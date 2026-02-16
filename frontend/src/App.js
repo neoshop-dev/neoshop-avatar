@@ -95,6 +95,25 @@ const SIZE_OPTIONS = [
   { id: "full", name: "Full" },
 ];
 
+// Configuration Shopify
+const SHOPIFY_CONFIG = {
+  domain: "https://equipassion-boutique.myshopify.com",
+  variants: {
+    // Noisette
+    "noisette-poney": "49778460164435",
+    "noisette-cob": "51528913092947",
+    "noisette-full": "51528913125715",
+    // Havane
+    "havane-poney": "52860492415315",
+    "havane-cob": "52860492448083",
+    "havane-full": "52860492480851",
+    // Noir
+    "noir-poney": "52860492513619",
+    "noir-cob": "52860492546387",
+    "noir-full": "52860492579155",
+  }
+};
+
 function App() {
   const [selectedLeather, setSelectedLeather] = useState(LEATHER_OPTIONS[0]);
   const [selectedSize, setSelectedSize] = useState(SIZE_OPTIONS[1]); // Cob par défaut
