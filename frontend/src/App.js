@@ -268,69 +268,74 @@ function App() {
     
     setIsExporting(true);
     
-    // Générer la description de la personnalisation
-    const customization = {
-      cuir: selectedLeather.name,
-      taille: selectedSize.name,
-      pattern: selectedStyles.map(s => s.name).join(" → "),
-      image: getImageBase64()
-    };
+    // Obtenir l'ID variant correspondant
+    const variantKey = `${selectedLeather.id}-${selectedSize.id}`;
+    const variantId = SHOPIFY_CONFIG.variants[variantKey];
     
-    // Configuration Shopify (à personnaliser)
-    const SHOPIFY_DOMAIN = window.SHOPIFY_DOMAIN || null;
-    const PRODUCT_VARIANT_ID = window.SHOPIFY_VARIANT_ID || null;
+    // Générer la description du pattern
+    const patternDescription = selectedStyles.map(s => s.name).join(" → ");
     
-    if (SHOPIFY_DOMAIN && PRODUCT_VARIANT_ID) {
-      // Mode Shopify intégré
-      try {
-        const formData = {
-          items: [{
-            id: PRODUCT_VARIANT_ID,
-            quantity: 1,
-            properties: {
-              "Cuir": customization.cuir,
-              "Taille": customization.taille,
-              "Pattern strass": customization.pattern,
-              "_customization_image": customization.image
-            }
-          }]
-        };
-        
-        const response = await fetch(`${SHOPIFY_DOMAIN}/cart/add.js`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-        
-        if (response.ok) {
-          // Rediriger vers le panier
-          window.location.href = `${SHOPIFY_DOMAIN}/cart`;
-        } else {
-          alert("Erreur lors de l'ajout au panier. Veuillez réessayer.");
-        }
-      } catch (error) {
-        console.error("Erreur Shopify:", error);
-        alert("Erreur de connexion. Veuillez réessayer.");
+    // Générer l'image en base64
+    const canvas = canvasRef.current;
+    const imageData = canvas ? canvas.toDataURL("image/png") : null;
+    
+    try {
+      // Préparer les données pour Shopify
+      const formData = {
+        items: [{
+          id: variantId,
+          quantity: 1,
+          properties: {
+            "Pattern strass": patternDescription,
+            "_customization_image": imageData
+          }
+        }]
+      };
+      
+      // Ajouter au panier via l'API Shopify
+      const response = await fetch(`${SHOPIFY_CONFIG.domain}/cart/add.js`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        // Succès ! Rediriger vers le panier
+        window.location.href = `${SHOPIFY_CONFIG.domain}/cart`;
+      } else {
+        // Si erreur CORS (normal en dev), ouvrir le panier avec les params
+        const cartUrl = `${SHOPIFY_CONFIG.domain}/cart/add?id=${variantId}&quantity=1&properties[Pattern strass]=${encodeURIComponent(patternDescription)}`;
+        window.open(cartUrl, '_blank');
       }
-    } else {
-      // Mode standalone - télécharger l'image + afficher récap
+    } catch (error) {
+      console.log("Mode standalone - téléchargement de l'image");
+      
+      // En cas d'erreur (CORS), télécharger l'image + afficher récap
       const recap = `
-🎨 Votre frontal personnalisé
+✨ Votre frontal personnalisé ✨
 
 📋 Récapitulatif:
-• Cuir: ${customization.cuir}
-• Taille: ${customization.taille}
-• Strass: ${customization.pattern}
+• Cuir: ${selectedLeather.name}
+• Taille: ${selectedSize.name}
+• Strass: ${patternDescription}
+
+💰 Prix: 39,00 €
 
 L'image de votre création a été téléchargée.
-Envoyez-la avec votre commande !
+Pour commander, rendez-vous sur equipassion-boutique.com
+et joignez cette image à votre commande !
       `.trim();
       
       // Télécharger l'image
-      const link = document.createElement("a");
-      link.download = `frontal-${selectedLeather.id}-${selectedSize.id}.png`;
-      link.href = customization.image;
-      link.click();
+      if (imageData) {
+        const link = document.createElement("a");
+        link.download = `frontal-${selectedLeather.id}-${selectedSize.id}-personnalise.png`;
+        link.href = imageData;
+        link.click();
+      }
       
       alert(recap);
     }
