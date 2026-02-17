@@ -511,19 +511,45 @@ function App() {
                 className="zoom-btn zoom-share"
                 onClick={() => {
                   const canvas = document.getElementById('zoom-canvas');
-                  if (navigator.share && canvas) {
-                    canvas.toBlob((blob) => {
+                  const patternText = selectedStyles.map(s => s.name).join(' → ');
+                  const shareText = `Mon frontal personnalisé - Cuir ${selectedLeather.name}, Taille ${selectedSize.name} - Strass: ${patternText}`;
+                  
+                  // Sur mobile avec Web Share API
+                  if (navigator.share && navigator.canShare) {
+                    canvas.toBlob(async (blob) => {
                       const file = new File([blob], 'mon-frontal.png', { type: 'image/png' });
-                      navigator.share({
+                      const shareData = {
                         title: 'Mon frontal personnalisé',
-                        text: `Cuir ${selectedLeather.name} - ${selectedStyles.map(s => s.name).join(' → ')}`,
+                        text: shareText,
                         files: [file]
-                      }).catch(() => {});
+                      };
+                      
+                      if (navigator.canShare(shareData)) {
+                        try {
+                          await navigator.share(shareData);
+                        } catch (err) {
+                          // Fallback WhatsApp
+                          window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+                        }
+                      } else {
+                        // Fallback WhatsApp si fichiers non supportés
+                        window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+                      }
                     });
                   } else {
-                    const text = encodeURIComponent('Découvrez mon frontal personnalisé !');
-                    const url = encodeURIComponent(window.location.href);
-                    window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+                    // Sur desktop - proposer plusieurs options
+                    const choice = window.confirm(
+                      '📱 Partager via WhatsApp ?\n\nCliquez OK pour WhatsApp\nCliquez Annuler pour copier le texte'
+                    );
+                    if (choice) {
+                      window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+                    } else {
+                      navigator.clipboard.writeText(shareText).then(() => {
+                        alert('✅ Texte copié dans le presse-papier !');
+                      }).catch(() => {
+                        prompt('Copiez ce texte :', shareText);
+                      });
+                    }
                   }
                 }}
                 data-testid="share-btn"
