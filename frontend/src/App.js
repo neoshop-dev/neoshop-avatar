@@ -293,15 +293,14 @@ function App() {
     // URL finale pour ajouter au panier
     const cartAddUrl = `${SHOPIFY_CONFIG.domain}/cart/add?${params.toString()}`;
     
-    // Utiliser window.top pour sortir de l'iframe et rediriger la page parente
-    // Cela fonctionne quand l'app est intégrée dans Shopify via iframe
-    if (window.top !== window.self) {
-      // On est dans une iframe - rediriger la page parente
-      window.top.location.href = cartAddUrl;
-    } else {
-      // Pas dans une iframe - redirection normale
-      window.location.href = cartAddUrl;
-    }
+    // Ouvrir dans une nouvelle fenêtre car l'iframe bloque la redirection cross-origin
+    window.open(cartAddUrl, '_blank');
+    
+    // Afficher confirmation
+    setTimeout(() => {
+      setIsExporting(false);
+      alert('✅ Produit ajouté au panier !\n\nUne nouvelle fenêtre s\'est ouverte vers votre panier Shopify.');
+    }, 500);
   };
 
   // Générer la description du pattern
