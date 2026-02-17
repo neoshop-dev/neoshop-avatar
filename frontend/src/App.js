@@ -97,7 +97,7 @@ const SIZE_OPTIONS = [
 
 // Configuration Shopify
 const SHOPIFY_CONFIG = {
-  domain: "https://equipassion-boutique.myshopify.com",
+  domain: "https://equipassion-boutique.com",
   variants: {
     // Noisette
     "noisette-poney": "49778460164435",
