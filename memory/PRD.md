@@ -54,6 +54,11 @@ Création d'un configurateur de frontal équestre personnalisable à intégrer s
 ## Code d'Intégration Shopify (Popup)
 Le configurateur peut être intégré sur une page produit Shopify via un bouton qui ouvre une modal contenant une iframe vers l'URL de preview.
 
+## Déploiement Production
+- **Hébergement**: Netlify (https://frontal.netlify.app)
+- **Intégration Shopify**: Iframe dans bloc Custom Liquid sur la page produit
+- **Page produit**: https://equipassion-boutique.com/products/frontal-clips-strass-argent-et-bleu
+
 ## Historique des Modifications
 - Décembre 2025: Création initiale avec 4 strass
 - Décembre 2025: Extension à 19 couleurs de strass
@@ -63,3 +68,7 @@ Le configurateur peut être intégré sur une page produit Shopify via un bouton
 - Décembre 2025: Calibrage taille strass à 52px
 - Décembre 2025: Nettoyage images Havane/Noisette (artifacts supprimés)
 - Décembre 2025: **Intégration Shopify complétée** avec 9 variant IDs
+- Février 2026: Modification pastilles cuir (Havane plus foncée, Noisette plus claire)
+- Février 2026: Ajout boutons Télécharger PNG + Partager dans modal zoom
+- Février 2026: Déploiement sur Netlify
+- Février 2026: **Intégration Shopify finalisée** - Ajout au panier via window.open()
