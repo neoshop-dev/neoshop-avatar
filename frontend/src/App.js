@@ -293,9 +293,15 @@ function App() {
     // URL finale pour ajouter au panier
     const cartAddUrl = `${SHOPIFY_CONFIG.domain}/cart/add?${params.toString()}`;
     
-    // Redirection vers Shopify pour ajouter au panier
-    // L'utilisateur sera redirigé vers son panier avec le produit ajouté
-    window.location.href = cartAddUrl;
+    // Utiliser window.top pour sortir de l'iframe et rediriger la page parente
+    // Cela fonctionne quand l'app est intégrée dans Shopify via iframe
+    if (window.top !== window.self) {
+      // On est dans une iframe - rediriger la page parente
+      window.top.location.href = cartAddUrl;
+    } else {
+      // Pas dans une iframe - redirection normale
+      window.location.href = cartAddUrl;
+    }
   };
 
   // Générer la description du pattern
