@@ -99,18 +99,19 @@ const SIZE_OPTIONS = [
 const SHOPIFY_CONFIG = {
   domain: "https://equipassion-boutique.com",
   variants: {
-    // Noisette
-    "noisette-poney": "49778460164435",
-    "noisette-cob": "51528913092947",
-    "noisette-full": "51528913125715",
-    // Havane
-    "havane-poney": "52860492415315",
-    "havane-cob": "52860492448083",
-    "havane-full": "52860492480851",
-    // Noir
-    "noir-poney": "52860492513619",
-    "noir-cob": "52860492546387",
-    "noir-full": "52860492579155",
+    // Format: cuir-taille -> variant_id
+    // Poney
+    "noir-poney": "53050115293523",
+    "havane-poney": "53050115326291",
+    "noisette-poney": "53050115359059",
+    // Cob
+    "noir-cob": "53050115391827",
+    "havane-cob": "53050115424595",
+    "noisette-cob": "53050115457363",
+    // Full
+    "noir-full": "53050115490131",
+    "havane-full": "53050115522899",
+    "noisette-full": "53050115555667",
   }
 };
 
