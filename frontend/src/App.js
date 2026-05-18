@@ -198,6 +198,7 @@ function App() {
       img.onerror = checkAllLoaded;
       img.src = style.src;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Dessiner sur le canvas
