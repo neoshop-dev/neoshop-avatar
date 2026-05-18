@@ -24,8 +24,8 @@ const STONE_STYLES = [
   { id: "rouge-rubis", name: "Rouge Rubis", src: "/style19.png" },
 ];
 
-// Options de couleur de cuir
-const LEATHER_OPTIONS = [
+// Options de couleur de cuir (toutes les options disponibles)
+const ALL_LEATHER_OPTIONS = [
   { 
     id: "noir", 
     name: "Noir", 
@@ -88,36 +88,71 @@ const LEATHER_OPTIONS = [
   },
 ];
 
-// Options de taille (informatives uniquement)
-const SIZE_OPTIONS = [
+// Toutes les options de taille
+const ALL_SIZE_OPTIONS = [
   { id: "poney", name: "Poney" },
   { id: "cob", name: "Cob" },
   { id: "full", name: "Full" },
 ];
 
-// Configuration Shopify
-const SHOPIFY_CONFIG = {
-  domain: "https://equipassion-boutique.com",
-  variants: {
-    // Format: cuir-taille -> variant_id
-    // Poney
-    "noir-poney": "53050115293523",
-    "havane-poney": "53050115326291",
-    "noisette-poney": "53050115359059",
-    // Cob
-    "noir-cob": "53050115391827",
-    "havane-cob": "53050115424595",
-    "noisette-cob": "53050115457363",
-    // Full
-    "noir-full": "53050115490131",
-    "havane-full": "53050115522899",
-    "noisette-full": "53050115555667",
+// Configuration multi-produits Shopify
+const PRODUCTS_CONFIG = {
+  // Produit 1: Frontal clips incurvé (par défaut)
+  "frontal-clips-strass-argent-et-bleu": {
+    name: "Frontal clips incurvé",
+    leatherIds: ["noir", "havane", "noisette"],
+    sizeIds: ["poney", "cob", "full"],
+    variants: {
+      "noir-poney": "53050115293523",
+      "havane-poney": "53050115326291",
+      "noisette-poney": "53050115359059",
+      "noir-cob": "53050115391827",
+      "havane-cob": "53050115424595",
+      "noisette-cob": "53050115457363",
+      "noir-full": "53050115490131",
+      "havane-full": "53050115522899",
+      "noisette-full": "53050115555667",
+    }
+  },
+  // Produit 2: Frontal clips V
+  "frontal-clips-v-en-cristal-100-personnalisable": {
+    name: "Frontal clips V",
+    leatherIds: ["noir", "noisette"],
+    sizeIds: ["cob", "full"],
+    variants: {
+      "noir-cob": "53779626131795",
+      "noisette-cob": "53779626197331",
+      "noir-full": "53779626230099",
+      "noisette-full": "53779626295635",
+    }
   }
 };
 
+// Domaine Shopify
+const SHOPIFY_DOMAIN = "https://equipassion-boutique.com";
+
+// Fonction pour obtenir le produit depuis l'URL
+const getProductFromURL = () => {
+  const params = new URLSearchParams(window.location.search);
+  const productParam = params.get('product');
+  if (productParam && PRODUCTS_CONFIG[productParam]) {
+    return productParam;
+  }
+  // Par défaut: premier produit
+  return "frontal-clips-strass-argent-et-bleu";
+};
+
 function App() {
+  // Détecter le produit actuel
+  const [currentProductId] = useState(getProductFromURL());
+  const currentProduct = PRODUCTS_CONFIG[currentProductId];
+  
+  // Filtrer les options selon le produit
+  const LEATHER_OPTIONS = ALL_LEATHER_OPTIONS.filter(l => currentProduct.leatherIds.includes(l.id));
+  const SIZE_OPTIONS = ALL_SIZE_OPTIONS.filter(s => currentProduct.sizeIds.includes(s.id));
+  
   const [selectedLeather, setSelectedLeather] = useState(LEATHER_OPTIONS[0]);
-  const [selectedSize, setSelectedSize] = useState(SIZE_OPTIONS[1]); // Cob par défaut
+  const [selectedSize, setSelectedSize] = useState(SIZE_OPTIONS[0]);
   const [selectedStyles, setSelectedStyles] = useState([]);
   const [loadedImages, setLoadedImages] = useState({});
   const [leatherImages, setLeatherImages] = useState({});
@@ -269,12 +304,12 @@ function App() {
     
     setIsExporting(true);
     
-    // Obtenir l'ID variant correspondant
+    // Obtenir l'ID variant correspondant depuis la config du produit actuel
     const variantKey = `${selectedLeather.id}-${selectedSize.id}`;
-    const variantId = SHOPIFY_CONFIG.variants[variantKey];
+    const variantId = currentProduct.variants[variantKey];
     
     if (!variantId) {
-      alert("Erreur: combinaison cuir/taille non trouvée");
+      alert("Erreur: combinaison cuir/taille non trouvée pour ce produit");
       setIsExporting(false);
       return;
     }
@@ -292,7 +327,7 @@ function App() {
     params.append('properties[Pattern strass]', patternDescription);
     
     // URL finale pour ajouter au panier
-    const cartAddUrl = `${SHOPIFY_CONFIG.domain}/cart/add?${params.toString()}`;
+    const cartAddUrl = `${SHOPIFY_DOMAIN}/cart/add?${params.toString()}`;
     
     // Ouvrir dans une nouvelle fenêtre car l'iframe bloque la redirection cross-origin
     window.open(cartAddUrl, '_blank');
